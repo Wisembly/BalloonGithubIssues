@@ -1,0 +1,76 @@
+{% extends "layout_expanded.html.twig" %}
+
+{% block header %}
+    <h1>Issues Balloon4<a href="issue/add" class="btn primary float-right">Ajouter une issue</a>
+    </h1>
+{% endblock %}
+
+{% block error %}
+    {% if error is defined and error != null %}{{ error }}{% endif %}
+{% endblock %}
+
+{% block content %}
+    <table id="issuesList" class="bordered-table zebra-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ticket</th>
+                <th>Créé par</th>
+
+                <th>Labels</th>
+                <th>Milestone</th>
+
+                <th>En charge</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for issue in issues %}
+            <tr data-controls-modal="modal_{{ issue.number }}" data-backdrop="static" style="cursor: pointer;">
+                <td>#{{ issue.number }}</td>
+                <td>
+                    {{ issue.title }}
+                </td>
+                <td>{{ issue.user.login }}</td>
+
+                <td>
+                    {% for label in issue.labels %}
+                        <span class="label" style="background: #{{ label.color }};color: #484848;">{{ label.name }}</span><br/>
+                    {% else %}
+                        ~
+                    {% endfor %}
+                </td>
+                <td>{% if issue.milestone.title is defined %}{{ issue.milestone.title }}{% else %}~{% endif %}</td>
+
+                <td>{{ issue.assignee.login }}</td>
+            </tr>
+            <div id="modal_{{ issue.number }}" class="modal hide fade">
+                <div class="modal-header">
+                  <a href="#" class="close">×</a>
+                  <h3>{{ issue.title }}</h3>
+                </div>
+                <div class="modal-body">
+                  <p>{{ issue.body }}</p>
+                </div>
+                <div class="modal-footer">
+                  <small>Appuyer sur Echap pour fermer</small>
+                </div>
+            </div>
+        {% else %}
+            Pas d'issue en cours
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="http://autobahn.tablesorter.com/jquery.tablesorter.js"></script>
+    <script >
+        $(document).ready(function(){
+            $("table#issuesList").tablesorter({ sortList: [[0,0]] });
+            $('.modal').modal({
+                keyboard: true,
+                backdrop: true,
+            });
+        });
+    </script>
+{% endblock %}

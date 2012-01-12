@@ -1,0 +1,36 @@
+<html>
+<head>
+    <link href="{{ app.request.baseUrl }}/web/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="{{ app.request.baseUrl }}/web/css/style.css" rel="stylesheet" media="screen" />
+    <title>{% filter title %}Balloon GitHub Issues{% endfilter %} </title>
+</head>
+<body>
+    {% block topbar %}
+        {% include "topbar.html.twig" %}
+    {% endblock %}
+
+    <div class="container">
+
+          <div class="content">
+            <div class="page-header">
+                {% block header %}{% endblock %}
+            </div>
+            <div class="row">
+              <div class="span16">
+                  {% include "flash_messages.html.twig" %}
+                  {% block content %}{% endblock %}
+              </div>
+            </div>
+          </div>
+
+          <footer>
+              {% block footer %}{% endblock %}
+          </footer>
+
+        </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="{{ app.request.baseUrl }}/web/bootstrap/js/bootstrap-modal.js"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

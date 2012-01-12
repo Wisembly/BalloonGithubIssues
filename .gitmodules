@@ -1,0 +1,9 @@
+[submodule "web/bootstrap"]
+	path = web/bootstrap
+	url = git://github.com/twitter/bootstrap.git
+[submodule "vendor/twig"]
+	path = vendor/twig
+	url = git://github.com/fabpot/Twig.git
+[submodule "vendor/Symfony/Component/HttpFoundation"]
+	path = vendor/Symfony/Component/HttpFoundation
+	url = git://github.com/symfony/HttpFoundation.git

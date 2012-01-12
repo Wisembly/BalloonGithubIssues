@@ -1,0 +1,4 @@
+{% for key, flash in app.session.getFlashes() %}
+    <div class="alert-message {{ key }}">{{ flash }}</div>
+{% endfor %}
+{{ app.session.clearFlashes() }}

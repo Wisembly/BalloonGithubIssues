@@ -1,0 +1,20 @@
+{% block topbar %}
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="{{ app['config']['base_url'] }}">Balloon GitHub Issues</a>
+          {% if app.session.get('user')['username'] is defined and app.session.get('user')['username'] != null %}
+              <p class="pull-right">
+                  Loggué en tant que {{ app.session.get('user')['username'] }} <a href="{{ app['config']['base_url'] }}/logout">Déconnexion</a>
+              </p>
+          {% else %}
+              <form action="login" method="POST" class="pull-right">
+                <input class="input-small" type="text" name="username" placeholder="Username">
+                <input class="input-small" type="password" name="password" placeholder="Password">
+                <button class="btn" type="submit">Log in</button>
+              </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+{% endblock %}
