@@ -6,6 +6,10 @@ $app = new Silex\Application();
 $app['config'] = require_once __DIR__.'/config.php';
 $app['debug'] = $app['config']['debug'];
 
+if (!isset($app['config']['repositories']) || empty($app['config']['repositories'])) {
+    die('You must provide at least on repo in the config file!');
+}
+
 require_once __DIR__.'/../lib/Autoloader.php';
 Autoloader::register();
 
