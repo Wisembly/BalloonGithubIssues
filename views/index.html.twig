@@ -1,23 +1,8 @@
 {% extends "layout_expanded.html.twig" %}
 
 {% block header %}
-    <h1>
-        <ul id="change-repo" class="unstyled inline">
-            <li class="dropdown" data-dropdown="dropdown">
-                <a href="#" class="btn small dropdown-toggle">Issues for: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
-                <ul class="dropdown-menu">
-                    {% for repo in app.config.repositories %}
-                        <li>
-                            <a href="change/{{ repo['user'] }}/{{ repo['repo'] }}">
-                                {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        </ul>
-        <a href="issue/add" class="btn primary float-right">Add new issue</a>
-    </h1>
+    {{ parent() }}
+    <a href="add" class="btn primary float-right">Add new issue</a>
 {% endblock %}
 
 {% block content %}
@@ -28,7 +13,6 @@
                 <th>Ticket</th>
                 <th>Créé par</th>
 
-                <th>Labels</th>
                 <th>Milestone</th>
 
                 <th>En charge</th>
@@ -43,16 +27,9 @@
                 </td>
                 <td>{{ issue.user.login }}</td>
 
-                <td>
-                    {% for label in issue.labels %}
-                        <span class="label" style="background: #{{ label.color }};color: #484848;">{{ label.name }}</span><br/>
-                    {% else %}
-                        ~
-                    {% endfor %}
-                </td>
                 <td>{% if issue.milestone.title is defined %}{{ issue.milestone.title }}{% else %}~{% endif %}</td>
 
-                <td>{{ issue.assignee.login }}</td>
+                <td>{% if issue.assignee != null %}{{ issue.assignee.login }}{% else %}~~{% endif %}</td>
             </tr>
             <div id="modal_{{ issue.number }}" class="modal hide fade">
                 <div class="modal-header">
@@ -68,7 +45,7 @@
             </div>
         {% else %}
             <tr>
-                <td colspan="6">
+                <td colspan="5">
                     <h2>No issues here</h2>
                 </td>
             </tr>
@@ -81,7 +58,7 @@
     <script src="http://autobahn.tablesorter.com/jquery.tablesorter.js"></script>
     <script>
         $(document).ready(function(){
-            $("table#issuesList").tablesorter({ sortList: [[0,0]] });
+            $("table#issuesList").tablesorter();
             $('.dropdown-toggle').dropdown();
             $('.modal').modal({
                 keyboard: true,

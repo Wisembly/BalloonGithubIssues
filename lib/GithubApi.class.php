@@ -10,14 +10,15 @@ class Balloon_GithubApi {
 
     protected $password = null;
 
-    public function listIssues()
+    public function addIssue($user, $repo, $params = array())
     {
-        
+        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $params);
     }
 
-    public function getIssues($user, $repo, $params = array())
+    public function getIssues($user, $repo, $params_array = array())
     {
-        foreach ($params as $param => $value) {
+        $params = '';
+        foreach ($params_array as $param => $value) {
             $params .= '&'.$param.'='.$value;
         }
 
@@ -38,7 +39,12 @@ class Balloon_GithubApi {
         return true;
     }
 
-    private function get($url = '', $method = 'HTTP_BASIC')
+    private function post($url = '', $post_params = array(), $method = 'HTTP_BASIC')
+    {
+        return $this->get($url, $method, $post_params);
+    }
+
+    private function get($url = '', $method = 'HTTP_BASIC', $post_params = false)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->api_url.$url);
@@ -46,6 +52,11 @@ class Balloon_GithubApi {
 
         if ('HTTP_BASIC' == $method && null !== $this->username) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->username.':'.$this->password);
+        }
+
+        if (false !== $post_params) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_params));
         }
 
         $response = curl_exec($ch);

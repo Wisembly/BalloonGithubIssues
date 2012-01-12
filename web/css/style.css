@@ -96,3 +96,12 @@ small {
     font-size: 10px;
     font-weight: bold;
 }
+
+input {
+    height: 35px;
+    font-size: 1.5em;
+}
+
+textarea {
+    height: 100px;
+}

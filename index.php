@@ -3,6 +3,7 @@ require_once __DIR__.'/app/bootstrap.php';
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+// issues list
 $app->get('/', function (Request $request) use ($app) {
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
 
@@ -17,11 +18,35 @@ $app->get('/', function (Request $request) use ($app) {
 })
 ->bind('index');
 
-$app->get('/add/{issue}', function (Request $request, $issue) use ($app) {
-    
+// add an issue
+$app->match('/add', function (Request $request) use ($app) {
+
+    if ($request->request->has('issue')) {
+        $result = $app['github']->addIssue(
+            $app['repo']['user'],
+            $app['repo']['repo'],
+            array(
+                'title'     => $request->request->get('issue'),
+                'body'      => $request->request->get('description', ''),
+                'labels'    => $app['config']['labels'],
+            ));
+
+        if (!empty($result) && !isset($result['message'])) {
+            $request->getSession()->setFlash('success', 'You successfully created your issue!');
+            return $app->redirect($app['url_generator']->generate('index'));
+        }
+
+        $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!');
+    }
+
+    return $app['twig']->render('add.html.twig', array(
+        'issue'         => $request->request->get('issue', null),
+        'description'   => $request->request->get('description', null),
+    ));
 })
 ->bind('add');
 
+// change repo
 $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use ($app) {
     if (null != $user && null != $repo) {
         $request->getSession()->set('repo', array('user' => urldecode($user), 'repo' => urldecode($repo)));
@@ -31,6 +56,7 @@ $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use
 })
 ->bind('change');
 
+// log in
 $app->get('/login', function (Request $request) use ($app) {
     if (true === $app['github']->login($request->request->get('username'), $request->request->get('password'))) {
         $request->getSession()->set(
@@ -49,6 +75,7 @@ $app->get('/login', function (Request $request) use ($app) {
 ->bind('login')
 ->method('POST');
 
+// log out
 $app->get('/logout', function (Request $request) use ($app) {
     $app['user'] = null;
     $request->getSession()->set('user', null);
@@ -56,6 +83,7 @@ $app->get('/logout', function (Request $request) use ($app) {
     return $app->redirect($app['url_generator']->generate('index'));
 });
 
+// manage logged in user session
 $app->before(function(Request $request) use ($app) {
     $app['user'] = $request->getSession()->get('user', null);
     $app['repo'] = $request->getSession()->get('repo', array(

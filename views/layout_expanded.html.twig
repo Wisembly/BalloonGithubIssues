@@ -14,7 +14,22 @@
 
           <div class="content">
             <div class="page-header">
-                {% block header %}{% endblock %}
+                {% block header %}
+                    <ul id="change-repo" class="unstyled inline">
+                        <li class="dropdown" data-dropdown="dropdown">
+                            <a href="#" class="btn small dropdown-toggle">Issues for: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
+                            <ul class="dropdown-menu">
+                                {% for repo in app.config.repositories %}
+                                    <li>
+                                        <a href="change/{{ repo['user'] }}/{{ repo['repo'] }}">
+                                            {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endblock %}
             </div>
             <div class="row">
               <div class="span16">

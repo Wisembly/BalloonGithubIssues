@@ -13,3 +13,13 @@ Retrieve submodules content:
 Create your local config file and edit it:
 `cp app/config.php dist app/config.php`
 `vi app/config.php`
+
+## Config`
+
+`debug` : `boolean` -> whether in production or not
+`base_url` : `string` -> url to where index.php is hosted/accessed
+`repositories` : `array` -> list of repositories managed by the tool
+`labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)
+
+## TODO
+* upload and insert url of a screenshot in body
