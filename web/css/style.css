@@ -64,6 +64,33 @@ body {
     float: right;
 }
 
+.float-left {
+    float: left;
+}
+
+.inline {
+    display: inline-block;
+}
+
+#change-repo {
+    margin: 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 4px 15px;
+  clear: both;
+  font-weight: normal;
+  line-height: 18px;
+  color: #808080;
+  text-shadow: 0 1px 0 #ffffff;
+  font-size: 12px;
+}
+
+ul.dropdown-menu {
+    top: 30px;
+}
+
 small {
     color: #484848;
     font-size: 10px;
