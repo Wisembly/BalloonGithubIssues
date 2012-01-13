@@ -11,8 +11,8 @@ Retrieve submodules content:
 `git submodule update --init`
 
 Create your local config file and edit it:
-`cp app/config.php dist app/config.php`
-`vi app/config.php`
+`cp Resources/config/config.php.dist Resources/config/config.php`
+`vi Resources/config/config.php`
 
 ## Config
 
