@@ -1,5 +1,7 @@
 <?php
+
 require_once __DIR__.'/app/bootstrap.php';
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,25 +23,49 @@ $app->get('/', function (Request $request) use ($app) {
 // add an issue
 $app->match('/add', function (Request $request) use ($app) {
 
-    if ($request->request->has('issue')) {
-        $result = $app['github']->addIssue(
-            $app['repo']['user'],
-            $app['repo']['repo'],
-            array(
-                'title'     => $request->request->get('issue'),
-                'body'      => $request->request->get('description', ''),
-                'labels'    => $app['config']['labels'],
-            ));
+    $form = $app['form.factory']->createBuilder('form') 
+            ->add('issue', 'text', array(
+                'label'     => $app['translator']->trans('issue'),
+                'required'  => true,
+            ))
+            ->add('description', 'textarea', array('label' => $app['translator']->trans('description'))) 
+            ->add('fileUpload', 'file', array('label' => $app['translator']->trans('fileupload')))
+        ->getForm();
 
-        if (!empty($result) && !isset($result['message'])) {
-            $request->getSession()->setFlash('success', 'You successfully created your issue!');
-            return $app->redirect($app['url_generator']->generate('index'));
+    if ($request->getMethod() == 'POST') {
+        $form->bindRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+
+            $file = $request->files->get($form->getName());
+            $path = __DIR__.'/web/upload/';
+            $filename = time().'_'.uniqid().'.'.$file['fileUpload']->guessExtension();
+            $file['fileUpload']->move($path, $filename);
+            $fileUrl = $app['config']['base_url'].'/upload/'.$filename;
+            $body = $request->request->get('description', '');
+            $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
+
+            $result = $app['github']->addIssue(
+                $app['repo']['user'],
+                $app['repo']['repo'],
+                array(
+                    'title'     => $data['issue'],
+                    'body'      => $body,
+                    'labels'    => $app['config']['labels'],
+                ));
+
+            if (!empty($result) && !isset($result['message'])) {
+                $request->getSession()->setFlash('success', 'You successfully created your issue!');
+                return $app->redirect($app['url_generator']->generate('index'));
+            }
         }
 
-        $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!');
+        $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!<br/>'.json_encode($result['errors']));
     }
 
     return $app['twig']->render('add.html.twig', array(
+        'form'          => $form->createView(),
         'issue'         => $request->request->get('issue', null),
         'description'   => $request->request->get('description', null),
     ));
@@ -81,10 +107,17 @@ $app->get('/logout', function (Request $request) use ($app) {
     $request->getSession()->set('user', null);
     $request->getSession()->setFlash('success', 'You successfully logged out!');
     return $app->redirect($app['url_generator']->generate('index'));
-});
+})
+->bind('logout');
 
 // manage logged in user session
 $app->before(function(Request $request) use ($app) {
+    /* Translations management */
+    if ($app['config']['locale'] && isset($app['translator.messages'][$app['config']['locale']])) {
+        $app['locale'] = $app['config']['locale'];
+    }
+
+    /* User management */
     $app['user'] = $request->getSession()->get('user', null);
     $app['repo'] = $request->getSession()->get('repo', array(
         'user' => $app['config']['repositories'][0]['user'],
@@ -99,4 +132,4 @@ $app->before(function(Request $request) use ($app) {
     return;
 });
 
-$app->run();
+return $app;

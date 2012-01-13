@@ -2,16 +2,16 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="{{ app['config']['base_url'] }}">Balloon GitHub Issues</a>
+          <a class="brand" href="{{ path('index') }}">Balloon GitHub Issues</a>
           {% if app['user'] is defined and app['user'] != null %}
               <p class="pull-right">
-                  Loggué en tant que {{ app['user'] }} <a href="{{ app['config']['base_url'] }}/logout">Déconnexion</a>
+                  Loggué en tant que {{ app['user'] }} <a href="{{ path('logout') }}">{{ 'logout' | trans }}</a>
               </p>
           {% else %}
-              <form action="login" method="POST" class="pull-right">
+              <form action="{{ path('login') }}" method="POST" class="pull-right">
                 <input class="input-small" type="text" name="username" placeholder="Username">
                 <input class="input-small" type="password" name="password" placeholder="Password">
-                <button class="btn" type="submit">Log in</button>
+                <button class="btn" type="submit">{{ 'login' | trans }}</button>
               </form>
           {% endif %}
         </div>

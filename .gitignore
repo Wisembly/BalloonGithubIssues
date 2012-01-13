@@ -5,3 +5,4 @@ config.php
 
 vendor/
 web/bootstrap/
+web/upload/

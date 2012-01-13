@@ -2,7 +2,7 @@
 
 {% block header %}
     {{ parent() }}
-    <a href="add" class="btn primary float-right">Add new issue</a>
+    <a href="{{ path('add') }}" class="btn primary float-right">Add new issue</a>
 {% endblock %}
 
 {% block content %}

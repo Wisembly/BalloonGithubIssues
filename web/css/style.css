@@ -97,11 +97,22 @@ small {
     font-weight: bold;
 }
 
-input {
+#addIssue label {
+    width: 200px;
+    margin-right: 15px;
+}
+
+#addIssue div {
+    margin-bottom: 15px;
+}
+
+#addIssue input {
+    width: 500px;
     height: 35px;
     font-size: 1.5em;
 }
 
-textarea {
+#addIssue textarea {
     height: 100px;
+    width: 500px;
 }

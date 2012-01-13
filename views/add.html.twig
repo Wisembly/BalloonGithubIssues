@@ -2,22 +2,12 @@
 
 {% block header %}
     {{ parent() }}
-    <a href="{{ app.request.baseUrl }}" class="btn float-right">Cancel</a>
+    <a href="{{ path('index') }}" class="btn danger float-right">{{ 'back' | trans }}</a>
 {% endblock %}
 
 {% block content %}
-    <form action="add" method="POST">
-        <div class="clearfix">
-            <div class="input">
-                <input class="span9" placeholder="Issue" name="issue" type="text" value="{{ issue }}">
-            </div>
-        </div>
-        <div class="clearfix">
-            <div class="input">
-                <textarea name="description" class="span9" placeholder="description here..">{{ description }}</textarea>
-            </div>
-        </div>
-
+    <form id="addIssue" action="add" method="POST" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
         <div class="actions">
             <input type="submit" name="login" class="btn primary" value="Send">
         </div>
