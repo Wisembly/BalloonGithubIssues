@@ -17,7 +17,6 @@ Create your local config file and edit it:
 ## Config
 
 * `debug` : `boolean` -> whether in production or not
-* `locale`: `string` -> default app language
-* `base_url` : `string` -> url to where index.php is hosted/accessed
+* `locale`: `string` -> default app language (en, fr currently)
 * `repositories` : `array` -> list of repositories managed by the tool
 * `labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)

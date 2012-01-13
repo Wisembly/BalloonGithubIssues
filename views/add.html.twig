@@ -9,7 +9,7 @@
     <form id="addIssue" action="add" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <div class="actions">
-            <input type="submit" name="login" class="btn primary" value="Send">
+            <input type="submit" name="login" class="btn primary" value="{{ 'send' | trans }}">
         </div>
     </form>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block header %}
     {{ parent() }}
-    <a href="{{ path('add') }}" class="btn primary float-right">Add new issue</a>
+    <a href="{{ path('add') }}" class="btn primary float-right">{{ 'add_new' | trans }}</a>
 {% endblock %}
 
 {% block content %}
@@ -10,12 +10,12 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Ticket</th>
-                <th>Créé par</th>
+                <th>{{ 'issue_name' | trans }}</th>
+                <th>{{ 'created_by' | trans }}</th>
 
-                <th>Milestone</th>
+                <th>{{ 'milestone' | trans }}</th>
 
-                <th>En charge</th>
+                <th>{{ 'assignee' | trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -40,13 +40,13 @@
                   <p>{{ issue.body }}</p>
                 </div>
                 <div class="modal-footer">
-                  <small>Appuyer sur Echap pour fermer</small>
+                  <small>{{ 'press_esc' | trans }}</small>
                 </div>
             </div>
         {% else %}
             <tr>
                 <td colspan="5">
-                    <h2>No issues here</h2>
+                    <h2>{{ 'no_issues' | trans }}</h2>
                 </td>
             </tr>
         {% endfor %}
@@ -55,6 +55,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script src="http://autobahn.tablesorter.com/jquery.tablesorter.js"></script>
     <script>
         $(document).ready(function(){

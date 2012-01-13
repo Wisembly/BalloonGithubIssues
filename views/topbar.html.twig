@@ -5,7 +5,7 @@
           <a class="brand" href="{{ path('index') }}">Balloon GitHub Issues</a>
           {% if app['user'] is defined and app['user'] != null %}
               <p class="pull-right">
-                  Loggué en tant que {{ app['user'] }} <a href="{{ path('logout') }}">{{ 'logout' | trans }}</a>
+                  {{ 'logged_as' | trans }} {{ app['user'] }} <a href="{{ path('logout') }}">{{ 'logout' | trans }}</a>
               </p>
           {% else %}
               <form action="{{ path('login') }}" method="POST" class="pull-right">

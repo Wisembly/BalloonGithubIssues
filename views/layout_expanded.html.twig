@@ -9,15 +9,13 @@
     {% block topbar %}
         {% include "topbar.html.twig" %}
     {% endblock %}
-
     <div class="container">
-
           <div class="content">
             <div class="page-header">
                 {% block header %}
                     <ul id="change-repo" class="unstyled inline">
                         <li class="dropdown" data-dropdown="dropdown">
-                            <a href="#" class="btn small dropdown-toggle">Issues for: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
+                            <a href="#" class="btn small dropdown-toggle">{{ 'issues_for' | trans }}: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
                             <ul class="dropdown-menu">
                                 {% for repo in app.config.repositories %}
                                     <li>
@@ -38,16 +36,14 @@
               </div>
             </div>
           </div>
-
           <footer>
               {% block footer %}{% endblock %}
           </footer>
-
         </div>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-modal.js"></script>
-    <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-dropdown.js"></script>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-modal.js"></script>
+        <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-dropdown.js"></script>
+    {% endblock %}
 </body>
 </html>

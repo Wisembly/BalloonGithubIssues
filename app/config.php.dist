@@ -3,7 +3,6 @@
 return array(
     'debug'     => true,
     'locale'    => 'en',
-    'base_url'  =>  'http://cobalt.dev:8888/GitHubIssues/web',
     'repositories'  =>  array(
             array('user' => 'balloon', 'repo' => 'balloon4'),
             array('user' => 'balloon', 'repo' => 'balloon5'),

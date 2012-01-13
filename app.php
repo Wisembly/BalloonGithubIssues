@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 // issues list
 $app->get('/', function (Request $request) use ($app) {
+    $server = $request->server->all();
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
 
     if (isset($issues['message']) && sizeof($issues) == 1) {
@@ -42,8 +43,8 @@ $app->match('/add', function (Request $request) use ($app) {
             $path = __DIR__.'/web/upload/';
             $filename = time().'_'.uniqid().'.'.$file['fileUpload']->guessExtension();
             $file['fileUpload']->move($path, $filename);
-            $fileUrl = $app['config']['base_url'].'/upload/'.$filename;
-            $body = $request->request->get('description', '');
+            $fileUrl = ($request->server->get('SERVER_PROTOCOL') == 'HTTP/1.1' ? 'http' : 'https').':/'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
+            $body = $data['description'];
             $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
 
             $result = $app['github']->addIssue(
