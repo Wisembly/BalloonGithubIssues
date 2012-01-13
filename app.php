@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 // issues list
 $app->get('/', function (Request $request) use ($app) {
-    $server = $request->server->all();
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
 
     if (isset($issues['message']) && sizeof($issues) == 1) {
@@ -23,7 +22,6 @@ $app->get('/', function (Request $request) use ($app) {
 
 // add an issue
 $app->match('/add', function (Request $request) use ($app) {
-
     $form = $app['form.factory']->createBuilder('form') 
             ->add('issue', 'text', array(
                 'label'     => $app['translator']->trans('issue'),
@@ -43,7 +41,8 @@ $app->match('/add', function (Request $request) use ($app) {
             $path = __DIR__.'/web/upload/';
             $filename = time().'_'.uniqid().'.'.$file['fileUpload']->guessExtension();
             $file['fileUpload']->move($path, $filename);
-            $fileUrl = ($request->server->get('SERVER_PROTOCOL') == 'HTTP/1.1' ? 'http' : 'https').':/'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
+            $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';
+            $fileUrl = $protocol.'://'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
             $body = $data['description'];
             $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
 
