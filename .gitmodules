@@ -21,4 +21,4 @@
 	url = git://github.com/symfony/ClassLoader.git
 [submodule "vendor/Symfony/Component/Translation"]
 	path = vendor/Symfony/Component/Translation
-	url = git://github.com/guillaumepotier/SymfonyTranslator.git
+	url = git://github.com/symfony/Translation.git
