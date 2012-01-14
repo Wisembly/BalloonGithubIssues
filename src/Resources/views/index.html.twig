@@ -73,7 +73,7 @@
                 <p class="date">{{ 'open' | trans }}: {{ milestone.open_issues }} {{ 'closed' | trans }}: {{ milestone.closed_issues }}</p>
             </div>
         {% else %}
-            {{ 'no_milestone' | trans }}
+            <h3>{{ 'no_milestone' | trans }}</h3>
         {% endfor %}
     </div>
 {% endblock %}

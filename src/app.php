@@ -11,6 +11,7 @@ $app->get('/', function (Request $request) use ($app) {
     if (isset($issues['message']) && sizeof($issues) == 1) {
         $request->getSession()->setFlash('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
         $issues = array();
+        $milestones = array();
     }
 
     return $app['twig']->render('index.html.twig', array(
