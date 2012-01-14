@@ -1,6 +1,8 @@
 <?php
 
-class Balloon_GithubApi {
+namespace GithubApi_v3;
+
+class Api {
 
     protected $api_url = 'https://api.github.com';
 

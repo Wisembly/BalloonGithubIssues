@@ -1,6 +1,6 @@
 <?php
 
-$app = require __DIR__.'/../app/app.php';
+$app = require __DIR__.'/../app/bootstrap.php';
 
 $app->run(); 
 exit();

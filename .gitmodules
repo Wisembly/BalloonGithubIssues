@@ -1,9 +1,24 @@
 [submodule "web/bootstrap"]
 	path = web/bootstrap
 	url = git://github.com/twitter/bootstrap.git
-[submodule "vendor/twig"]
-	path = vendor/twig
-	url = git://github.com/fabpot/Twig.git
-[submodule "vendor/symfony"]
-	path = vendor/symfony
-	url = git://github.com/symfony/symfony.git
+[submodule "vendor/Twig"]
+	path = vendor/Twig
+	url = http://github.com/fabpot/Twig.git
+[submodule "vendor/Symfony/Bridge/Twig"]
+	path = vendor/Symfony/Bridge/Twig
+	url = https://github.com/symfony/TwigBridge.git
+[submodule "vendor/Twig-extensions"]
+	path = vendor/Twig-extensions
+	url = https://github.com/fabpot/Twig-extensions.git
+[submodule "vendor/Symfony/Component/Form"]
+	path = vendor/Symfony/Component/Form
+	url = http://github.com/symfony/Form.git
+[submodule "vendor/Symfony/Component/Validator"]
+	path = vendor/Symfony/Component/Validator
+	url = http://github.com/symfony/Validator.git
+[submodule "vendor/Symfony/Component/ClassLoader"]
+	path = vendor/Symfony/Component/ClassLoader
+	url = git://github.com/symfony/ClassLoader.git
+[submodule "vendor/Symfony/Component/Translation"]
+	path = vendor/Symfony/Component/Translation
+	url = git://github.com/guillaumepotier/SymfonyTranslator.git

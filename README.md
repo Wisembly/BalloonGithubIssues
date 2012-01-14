@@ -2,6 +2,8 @@
 
 This tool aims to give a simple access to all non-technical protagonists of a projet to Github issues and add some extra features like screenshots upload.
 
+Based on Silex micro-framework and Twitter Bootstrap.
+
 ## Install
 
 Clone the project:
@@ -11,8 +13,8 @@ Retrieve submodules content:
 `git submodule update --init`
 
 Create your local config file and edit it:
-`cp Resources/config/config.php.dist Resources/config/config.php`
-`vi Resources/config/config.php`
+`cp app/config/config.php.dist app/config/config.php`
+`vi app/config/config.php`
 
 ## Config
 
@@ -20,3 +22,7 @@ Create your local config file and edit it:
 * `locale`: `string` -> default app language (en, fr currently)
 * `repositories` : `array` -> list of repositories managed by the tool
 * `labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)
+
+## TODO
+
+* debug labels not assigned when creating a new issue
