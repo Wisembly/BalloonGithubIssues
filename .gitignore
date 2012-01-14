@@ -3,6 +3,7 @@ phpunit.xml
 silex.phar
 config.php
 
+app/logs/
 vendor/
 web/bootstrap/
 web/upload/
