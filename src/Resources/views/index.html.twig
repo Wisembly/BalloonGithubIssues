@@ -3,55 +3,79 @@
 {% block header %}
     {{ parent() }}
     <a href="{{ path('add') }}" class="btn primary float-right">{{ 'add_new' | trans }}</a>
+    <ul id="issues_tabs" class="tabs" style="display:none;">
+        <li><a href="#" class="see_issues">{{ 'issues' | trans }} ({{ issues|length }})</a></li>
+        <li><a href="#" class="see_milestones">{{ 'milestones' | trans }} ({{ milestones|length }})</a></li>
+    </ul>
 {% endblock %}
 
 {% block content %}
-    <table id="issuesList" class="bordered-table zebra-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>{{ 'issue_name' | trans }}</th>
-                <th>{{ 'created_by' | trans }}</th>
+    <div id="issues">
+        <table id="issuesList" class="bordered-table zebra-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{ 'issue_name' | trans }}</th>
+                    <th>{{ 'created_by' | trans }}</th>
 
-                <th>{{ 'milestone' | trans }}</th>
+                    <th>{{ 'milestone' | trans }}</th>
 
-                <th>{{ 'assignee' | trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for issue in issues %}
-            <tr data-controls-modal="modal_{{ issue.number }}" data-backdrop="static" style="cursor: pointer;">
-                <td>#{{ issue.number }}</td>
-                <td>
-                    {{ issue.title }}
-                </td>
-                <td>{{ issue.user.login }}</td>
+                    <th>{{ 'assignee' | trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for issue in issues %}
+                <tr data-controls-modal="modal_{{ issue.number }}" data-backdrop="static" style="cursor: pointer;">
+                    <td>#{{ issue.number }}</td>
+                    <td>
+                        {{ issue.title }}
+                    </td>
+                    <td>{{ issue.user.login }}</td>
 
-                <td>{% if issue.milestone.title is defined %}{{ issue.milestone.title }}{% else %}~{% endif %}</td>
+                    <td>{% if issue.milestone.title is defined %}{{ issue.milestone.title }}{% else %}~{% endif %}</td>
 
-                <td>{% if issue.assignee != null %}{{ issue.assignee.login }}{% else %}~~{% endif %}</td>
-            </tr>
-            <div id="modal_{{ issue.number }}" class="modal hide fade">
-                <div class="modal-header">
-                  <a href="#" class="close">×</a>
-                  <h3>{{ issue.title }}</h3>
+                    <td>{% if issue.assignee != null %}{{ issue.assignee.login }}{% else %}~~{% endif %}</td>
+                </tr>
+                <div id="modal_{{ issue.number }}" class="modal hide fade">
+                    <div class="modal-header">
+                      <a href="#" class="close">×</a>
+                      <h3>{{ issue.title }}</h3>
+                    </div>
+                    <div class="modal-body">
+                      <p>{{ issue.body }}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <small>{{ 'press_esc' | trans }}</small>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <p>{{ issue.body }}</p>
+            {% else %}
+                <tr>
+                    <td colspan="5">
+                        <h2>{{ 'no_issues' | trans }}</h2>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="milestones">
+        <h2>{{ 'milestones' | trans }}</h2>
+        {% for milestone in milestones %}
+            <div class="milestone">
+                <div class="progress">
+                    <span class="progress-bar">
+                        <span class="progress" style="width: {{ milestone.closed_issues / (milestone.closed_issues + milestone.open_issues) * 100 // 1  }}%">&nbsp;</span>
+                        <span class="percent">67%</span>
+                    </span>
                 </div>
-                <div class="modal-footer">
-                  <small>{{ 'press_esc' | trans }}</small>
-                </div>
+                <h3>{{ milestone.title }}</h3>
+                <p class="date">{{ 'open' | trans }}: {{ milestone.open_issues }} {{ 'closed' | trans }}: {{ milestone.closed_issues }}</p>
             </div>
         {% else %}
-            <tr>
-                <td colspan="5">
-                    <h2>{{ 'no_issues' | trans }}</h2>
-                </td>
-            </tr>
+            {{ 'no_milestone' | trans }}
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

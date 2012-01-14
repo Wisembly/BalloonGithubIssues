@@ -5,7 +5,8 @@
     <link href="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/css/style.css" rel="stylesheet" media="screen" />
     <title>{% filter title %}Balloon GitHub Issues{% endfilter %} </title>
 </head>
-<body>
+
+<body class="{{ app.request.attributes.get('_route') }}">
     {% block topbar %}
         {% include "topbar.html.twig" %}
     {% endblock %}
@@ -42,8 +43,9 @@
         </div>
     {% block javascripts %}
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-        <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-modal.js"></script>
-        <script src="{{ app.request.baseUrl }}/bootstrap/js/bootstrap-dropdown.js"></script>
+        <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/js/ux.js"></script>
+        <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-modal.js"></script>
+        <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-dropdown.js"></script>
     {% endblock %}
 </body>
 </html>

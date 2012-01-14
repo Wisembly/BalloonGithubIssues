@@ -23,6 +23,11 @@ Create your local config file and edit it:
 * `repositories` : `array` -> list of repositories managed by the tool
 * `labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)
 
+## Requirements
+
+* PHP 5.3.x
+* curl extension activated
+
 ## TODO
 
 * debug labels not assigned when creating a new issue

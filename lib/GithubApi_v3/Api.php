@@ -12,19 +12,19 @@ class Api {
 
     protected $password = null;
 
-    public function addIssue($user, $repo, $params = array())
+    public function getMilestones($user, $repo, $params = array())
     {
-        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $params);
+        return $this->get('/repos/'.$user.'/'.$repo.'/milestones', $this->params($params));
     }
 
-    public function getIssues($user, $repo, $params_array = array())
+    public function addIssue($user, $repo, $params = array())
     {
-        $params = '';
-        foreach ($params_array as $param => $value) {
-            $params .= '&'.$param.'='.$value;
-        }
+        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $this->params($params));
+    }
 
-        return $this->get('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues?'.$params);
+    public function getIssues($user, $repo, $params = array())
+    {
+        return $this->get('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $this->params($params));
     }
 
     public function login($username, $password)
@@ -41,15 +41,26 @@ class Api {
         return true;
     }
 
+    private function params($params_array = array())
+    {
+        $params = '';
+        foreach ($params_array as $param => $value) {
+            $params .= '&'.$param.'='.$value;
+        }
+
+        return $params;
+    }
+
     private function post($url = '', $post_params = array(), $method = 'HTTP_BASIC')
     {
         return $this->get($url, $method, $post_params);
     }
 
-    private function get($url = '', $method = 'HTTP_BASIC', $post_params = false)
+    private function get($url = '', $params = '', $method = 'HTTP_BASIC', $post_params = false)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->api_url.$url);
+        $url = $this->api_url . $url . (!empty($params) ? $params : '');
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
         if ('HTTP_BASIC' == $method && null !== $this->username) {

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 // issues list
 $app->get('/', function (Request $request) use ($app) {
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
+    $milestones = $app['github']->getMilestones($app['repo']['user'], $app['repo']['repo']);
 
     if (isset($issues['message']) && sizeof($issues) == 1) {
         $request->getSession()->setFlash('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
@@ -13,7 +14,8 @@ $app->get('/', function (Request $request) use ($app) {
     }
 
     return $app['twig']->render('index.html.twig', array(
-        'issues'    => $issues,
+        'issues'        => $issues,
+        'milestones'    => $milestones,
     ));
 })
 ->bind('index');

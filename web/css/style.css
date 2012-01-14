@@ -32,6 +32,12 @@ body {
   margin: -20px -20px 20px;
 }
 
+.tabs {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    border: none;
+}
+
 /* Styles you shouldn't keep as they are for displaying this base example only */
 .content .span10,
 .content .span4 {
@@ -115,4 +121,57 @@ small {
 #addIssue textarea {
     height: 100px;
     width: 500px;
+}
+
+.milestone .progress {
+    float: right;
+    margin-top: 5px;
+    width: 390px;
+}
+
+.milestone .progress-bar {
+    position: relative;
+    background: #E2E2E2;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#e2e2e2',endColorstr='#d8d8d8');
+    background: -webkit-gradient(linear,left top,left bottom,from(#E2E2E2),to(#D8D8D8));
+    background: -moz-linear-gradient(top,#E2E2E2,#D8D8D8);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    display: block;
+    margin: 0;
+    top: 0;
+    height: 30px;
+}
+
+.milestone .progress-bar .progress {
+    background: #8DCF16;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#8dcf16',endColorstr='#65bd10');
+    background: -webkit-gradient(linear,left top,left bottom,from(#8DCF16),to(#65BD10));
+    background: -moz-linear-gradient(top,#8DCF16,#65BD10);
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+
+    display: block;
+    float: none;
+    height: 30px;
+}
+
+.milestone .progress-bar .percent {
+    position: absolute;
+    top: 4px;
+    left: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+}
+
+.milestone h3, .milestone p {
+    padding-left: 20px;
 }
