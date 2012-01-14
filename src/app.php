@@ -28,8 +28,14 @@ $app->match('/add', function (Request $request) use ($app) {
                 'label'     => $app['translator']->trans('issue'),
                 'required'  => true,
             ))
-            ->add('description', 'textarea', array('label' => $app['translator']->trans('description'))) 
-            ->add('fileUpload', 'file', array('label' => $app['translator']->trans('fileupload')))
+            ->add('description', 'textarea', array(
+                'label'     => $app['translator']->trans('description'), 
+                'required'  => false,
+            )) 
+            ->add('fileUpload', 'file', array(
+                'label'     => $app['translator']->trans('fileupload'),
+                'required'  => false
+            ))
         ->getForm();
 
     if ($request->getMethod() == 'POST') {
@@ -39,7 +45,7 @@ $app->match('/add', function (Request $request) use ($app) {
             $data = $form->getData();
 
             $file = $request->files->get($form->getName());
-            $path = __DIR__.'/web/upload/';
+            $path = __DIR__.'/../web/upload/';
             $filename = time().'_'.uniqid().'.'.$file['fileUpload']->guessExtension();
             $file['fileUpload']->move($path, $filename);
             $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';

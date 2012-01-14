@@ -19,7 +19,7 @@ class Api {
 
     public function addIssue($user, $repo, $params = array())
     {
-        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $this->params($params));
+        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $params);
     }
 
     public function getIssues($user, $repo, $params = array())
@@ -53,7 +53,7 @@ class Api {
 
     private function post($url = '', $post_params = array(), $method = 'HTTP_BASIC')
     {
-        return $this->get($url, $method, $post_params);
+        return $this->get($url, '', $method, $post_params);
     }
 
     private function get($url = '', $params = '', $method = 'HTTP_BASIC', $post_params = false)
