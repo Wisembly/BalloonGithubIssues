@@ -1,0 +1,24 @@
+<div class="topbar" style="position:absolute; background-color:#e5e5e5;">
+    <h3>
+        BalloonGithubIssues
+    </h3>
+</div>
+
+<div class="row" style="position:absolute; top:90px; left:35px;">
+    You are not logged, please log to continue
+</div>
+
+<div class="content" style="position:absolute; top:130px;">
+    <form action="{{ path('login') }}" method="POST" class="pull-right">
+        <div class="row">
+            <input class="input bookmarklet-input" type="text" name="username" placeholder="Username">
+        </div>
+        <br/>
+        <div class="row">
+            <input class="input bookmarklet-input" type="password" name="password" placeholder="Password">
+        </div>
+        <br/>
+        <button class="btn pull-right" type="submit">{{ 'login' | trans }}</button>
+        <input type="hidden" name="bookmarklet"/>
+    </form>
+</div>

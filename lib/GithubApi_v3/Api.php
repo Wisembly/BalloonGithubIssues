@@ -41,6 +41,11 @@ class Api {
         return true;
     }
 
+    public function isLogged()
+    {
+        return $this->is_logged;
+    }
+
     private function params($params_array = array())
     {
         $params = '';
