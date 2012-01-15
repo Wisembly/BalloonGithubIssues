@@ -7,5 +7,4 @@ return array(
             array('user' => 'balloon', 'repo' => 'balloon4'),
             array('user' => 'balloon', 'repo' => 'balloon5'),
         ),
-    'label'         => array('_unassigned', 'todo'),
 );

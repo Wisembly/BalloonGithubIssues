@@ -43,15 +43,16 @@ $app->match('/add', function (Request $request) use ($app) {
 
         if ($form->isValid()) {
             $data = $form->getData();
-
-            $file = $request->files->get($form->getName());
-            $path = __DIR__.'/../web/upload/';
-            $filename = time().'_'.uniqid().'.'.$file['fileUpload']->guessExtension();
-            $file['fileUpload']->move($path, $filename);
-            $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';
-            $fileUrl = $protocol.'://'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
+            $files = $request->files->get($form->getName());
             $body = $data['description'];
-            $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
+
+            if (isset($files['fileUpload']) && null !== $files['fileUpload']) {
+                $filename = time().'_'.uniqid().'.'.$files['fileUpload']->guessExtension();
+                $files['fileUpload']->move(__DIR__.'/../web/upload/', $filename);
+                $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';
+                $fileUrl = $protocol.'://'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
+                $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
+            }
 
             $result = $app['github']->addIssue(
                 $app['repo']['user'],
@@ -59,7 +60,6 @@ $app->match('/add', function (Request $request) use ($app) {
                 array(
                     'title'     => $data['issue'],
                     'body'      => $body,
-                    'labels'    => $app['config']['labels'],
                 ));
 
             if (!empty($result) && !isset($result['message'])) {
