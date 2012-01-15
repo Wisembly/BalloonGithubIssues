@@ -34,3 +34,15 @@ Chmod your upload dir
 ## TODO
 
 * debug labels not assigned when creating a new issue
+
+## Bookmarklet :
+
+javascript:
+ s = document.createElement('script');
+ s.setAttribute('type','text/javascript');
+ s.setAttribute('src','http://dev/BalloonGithubIssues/web/js/init_bookmarklet.js');
+ s.setAttribute('id','main_js_container');
+ j = document.createElement('script');
+ j.setAttribute('type','text/javascript');
+ j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js');
+ document.getElementsByTagName('head')[0].appendChild(j);document.getElementsByTagName('head')[0].appendChild(s);
