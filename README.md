@@ -16,6 +16,9 @@ Create your local config file and edit it:
 `cp app/config/config.php.dist app/config/config.php`
 `vi app/config/config.php`
 
+Chmod your upload dir
+`chmod 777 web/upload`
+
 ## Config
 
 * `debug` : `boolean` -> whether in production or not
