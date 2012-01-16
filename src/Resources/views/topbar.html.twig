@@ -2,10 +2,18 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="{{ path('index') }}">Balloon GitHub Issues</a>
+          <a class="brand" href="{{ path('index') }}">{{ "balloon_github_issues" | trans }}</a>
           {% if app['user'] is defined and app['user'] != null %}
               <p class="pull-right">
-                  {{ 'logged_as' | trans }} {{ app['user'] }} <a href="{{ path('logout') }}">{{ 'logout' | trans }}</a>
+                  {{ 'logged_as' | trans }} {{ app['user']['username'] }} 
+                    <a href="
+                            {% if bookmarklet is defined %}
+                                    {{ url('logout', { 'bookmarklet' : 1}) }} 
+                                {% else %}
+                                    {{ url('login') }}
+                            {% endif %}">
+                        {{ 'logout' | trans }}
+                    </a>
               </p>
           {% else %}
               <form action="{{ path('login') }}" method="POST" class="pull-right">

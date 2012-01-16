@@ -2,7 +2,11 @@
 <head>
     <link rel="icon" type="image/png" href="{{ app.request.baseUrl }}/favicon.ico" />
     <link href="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/css/style.css" rel="stylesheet" media="screen" />
+    {% if  bookmarklet is defined %}
+        <link href="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/css/bookmarklet.css" rel="stylesheet" media="screen" />
+    {% else %}
+        <link href="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/css/style.css" rel="stylesheet" media="screen" />
+    {% endif %}
     <title>{% filter title %}Balloon GitHub Issues{% endfilter %} </title>
 </head>
 
@@ -14,20 +18,22 @@
           <div class="content">
             <div class="page-header">
                 {% block header %}
-                    <ul id="change-repo" class="unstyled inline">
-                        <li class="dropdown" data-dropdown="dropdown">
-                            <a href="#" class="btn small dropdown-toggle">{{ 'issues_for' | trans }}: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
-                            <ul class="dropdown-menu">
-                                {% for repo in app.config.repositories %}
-                                    <li>
-                                        <a href="{{ path('change', {"user": repo['user'], "repo": repo['repo']}) }}">
-                                            {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
+                    {% if bookmarklet is not defined %}
+                        <ul id="change-repo" class="unstyled inline">
+                            <li class="dropdown" data-dropdown="dropdown">
+                                <a href="#" class="btn small dropdown-toggle">{{ 'issues_for' | trans }}: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
+                                <ul class="dropdown-menu">
+                                    {% for repo in app.config.repositories %}
+                                        <li>
+                                            <a href="{{ path('change', {"user": repo['user'], "repo": repo['repo']}) }}">
+                                                {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    {% endif %}
                 {% endblock %}
             </div>
             <div class="row">

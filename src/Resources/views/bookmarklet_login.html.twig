@@ -1,15 +1,15 @@
 <div class="topbar" style="position:absolute; background-color:#e5e5e5;">
     <h3>
-        BalloonGithubIssues
+       {{ "balloon_github_issues" | trans }}
     </h3>
 </div>
 
 <div class="row" style="position:absolute; top:90px; left:35px;">
-    You are not logged, please log to continue
+    {{ "please_login" | trans }}
 </div>
 
 <div class="content" style="position:absolute; top:130px;">
-    <form action="{{ path('login') }}" method="POST" class="pull-right">
+    <form action="{{ url('login') }}" method="POST" class="pull-right">
         <div class="row">
             <input class="input bookmarklet-input" type="text" name="username" placeholder="Username">
         </div>

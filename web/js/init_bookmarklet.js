@@ -1,9 +1,11 @@
+    var iframeId = "BalloonGithubIssuesFrame";
+
 function initBookMarkLet()
 {
     // config
     var host = 'http://dev/BalloonGithubIssues/web';
     var cssStyle = 'http://dev/BalloonGithubIssues/web/css/bookmarklet_frame_style.css';
-    var iframeId = 'BalloonGithubIssuesFrame';
+
 
     // Create and insert the main container
     var container = document.createElement('iframe');
@@ -30,6 +32,12 @@ function initBookMarkLet()
 
     // Show BookMarkLet
     $('#'+iframeId).fadeIn('slow');
+}
+
+function closeIframe(iframeId)
+{
+    var iframe = document.getElementById(iframeId);
+    iframe.parentNode.removeChild(iframe);
 }
 
 initBookMarkLet();

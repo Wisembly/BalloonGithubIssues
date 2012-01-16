@@ -38,11 +38,11 @@ Chmod your upload dir
 ## Bookmarklet :
 
 javascript:
- s = document.createElement('script');
- s.setAttribute('type','text/javascript');
- s.setAttribute('src','http://dev/BalloonGithubIssues/web/js/init_bookmarklet.js');
- s.setAttribute('id','main_js_container');
- j = document.createElement('script');
- j.setAttribute('type','text/javascript');
- j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js');
- document.getElementsByTagName('head')[0].appendChild(j);document.getElementsByTagName('head')[0].appendChild(s);
+ s = document.createElement('script'); <br/>
+ s.setAttribute('type','text/javascript'); <br/>
+ s.setAttribute('src','http://dev/BalloonGithubIssues/web/js/init_bookmarklet.js'); <br/>
+ s.setAttribute('id','main_js_container'); <br/>
+ j = document.createElement('script'); <br/>
+ j.setAttribute('type','text/javascript'); <br/>
+ j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js'); <br/>
+ document.getElementsByTagName('head')[0].appendChild(j);document.getElementsByTagName('head')[0].appendChild(s); <br/>

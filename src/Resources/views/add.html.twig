@@ -2,7 +2,9 @@
 
 {% block header %}
     {{ parent() }}
-    <a href="{{ path('index') }}" class="btn danger float-right">{{ 'back' | trans }}</a>
+        {% if bookmarklet is not defined %}
+            <a href="{{ path('index') }}" class="btn danger float-right">{{ 'back' | trans }}</a>
+        {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -11,5 +13,8 @@
         <div class="actions">
             <input type="submit" name="login" class="btn primary" value="{{ 'send' | trans }}">
         </div>
+        {% if bookmarklet is defined %}
+            <input type="hidden" name="bookmarklet" value="true"/>
+        {% endif %}
     </form>
 {% endblock %}

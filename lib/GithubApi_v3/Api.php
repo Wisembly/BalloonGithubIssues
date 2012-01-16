@@ -12,9 +12,21 @@ class Api {
 
     protected $password = null;
 
+    protected $userData = null;
+
     public function getMilestones($user, $repo, $params = array())
     {
         return $this->get('/repos/'.$user.'/'.$repo.'/milestones', $this->params($params));
+    }
+
+    public function loadUserData()
+    {
+        return $this->get('/user');
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
     }
 
     public function addIssue($user, $repo, $params = array())
@@ -37,6 +49,7 @@ class Api {
             return false;
         }
 
+        $this->userData = $this->loadUserData();
         $this->is_logged = true;
         return true;
     }

@@ -25,17 +25,24 @@ $app->get('/', function (Request $request) use ($app) {
 $app->match('/add', function (Request $request) use ($app) {
 
     if ($request->get('src') == 'bookmarklet.js' && false == $app['github']->isLogged()) {
-
         $view = $app['twig']->render('bookmarklet_login.html.twig', array());
-
-        return new Response("var a=".json_encode($view).";  document.getElementsByTagName('body')[0].innerHTML=a;
-        var style = document.createElement('link');
-        style.setAttribute('type','text/css');
-        style.setAttribute('href','http://dev/BalloonGithubIssues/web/css/bootstrap_1.4.0.min.css');
-        style.setAttribute('rel','stylesheet');
-        document.getElementsByTagName('html')[0].setAttribute('style','overflow-y:hidden;')
-        document.getElementsByTagName('head')[0].insertBefore(style); ");
+            return new Response("var a=".json_encode($view).";
+                document.getElementsByTagName('body')[0].innerHTML=a;
+                var style = document.createElement('link');
+                style.setAttribute('type','text/css');
+                style.setAttribute('href','http://dev/BalloonGithubIssues/web/bootstrap/bootstrap.css');
+                style.setAttribute('rel','stylesheet');
+                document.getElementsByTagName('head')[0].insertBefore(style);
+                var style = document.createElement('link');
+                style.setAttribute('type','text/css');
+                style.setAttribute('href','http://dev/BalloonGithubIssues/web/css/bookmarklet_login.css');
+                style.setAttribute('rel','stylesheet');
+                document.getElementsByTagName('html')[0].setAttribute('style','overflow-y:hidden;')
+                document.getElementsByTagName('head')[0].insertBefore(style);
+            ");
     }
+
+    $userData = $app['github']->getUserData();
 
     $form = $app['form.factory']->createBuilder('form') 
             ->add('issue', 'text', array(
@@ -50,16 +57,18 @@ $app->match('/add', function (Request $request) use ($app) {
                 'label'     => $app['translator']->trans('fileupload'),
                 'required'  => false
             ))
+            ->add('userData', 'hidden', array(
+                'required'  => false
+            ))
         ->getForm();
 
     if ($request->getMethod() == 'POST') {
         $form->bindRequest($request);
 
-
         if ($form->isValid()) {
             $data = $form->getData();
             $files = $request->files->get($form->getName());
-            $body = $data['description'];
+            $body = $data['description']."<br/>--------------------------<br/><i>".$data['userData']."</i>";
 
             if (isset($files['fileUpload']) && null !== $files['fileUpload']) {
                 $filename = time().'_'.uniqid().'.'.$files['fileUpload']->guessExtension();
@@ -78,14 +87,22 @@ $app->match('/add', function (Request $request) use ($app) {
                 ));
 
             if (!empty($result) && !isset($result['message'])) {
-                if($request->request->get('bookmarklet')){
+                if ($request->request->get('bookmarklet')) {
                     return new Response("
-                    <script type='text/javascript'>
-                    var js = document.createElement('script');
-                    js.setAttribute('type','text/javascript');  
-                    js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js');
-                    document.getElementsByTagName('head')[0].appendChild(js);
-                    </script>
+                        <script type='text/javascript'>
+                            window.
+                            parent.
+                            document.
+                            getElementById('BalloonGithubIssuesFrame').
+                            parentNode.
+                            removeChild(
+                                window.
+                                parent.
+                                document.
+                                getElementById('BalloonGithubIssuesFrame'
+                                )
+                            );
+                        </script>
                     ");
                 } else {
                     $request->getSession()->setFlash('success', 'You successfully created your issue!');
@@ -99,39 +116,55 @@ $app->match('/add', function (Request $request) use ($app) {
     
         if ($request->query->get('src') == 'bookmarklet.js') {
             $iframeid = $request->query->get('iframeid');
-            if(!$request->query->has('redirect')) {
-                $f =  $app['twig']->render('bookmarklet_add_html.twig', array(
+            if (!$request->query->has('redirect')) {
+                $f =  $app['twig']->render('add.html.twig', array(
                     'form'          => $form->createView(),
-                    'issue'         => $request->request->get('issue', null),
-                    'description'   => $request->request->get('description', null),
+                    'bookmarklet'   => true,
                 )); 
                 return new Response("
                 var a=".json_encode($f).";
-                document.getElementsByTagName('body')[0].innerHTML=a; 
+                document.getElementsByTagName('body')[0].innerHTML=a;
+                var img = document.createElement('img');
+                img.setAttribute('src','".$userData['avatar_url']."');
+                img.setAttribute('style','width:55px; position:absolute; top:80px; left:10px; height:55px;');
+                document.getElementsByTagName('body')[0].appendChild(img);
                 var style = document.createElement('link');
                 style.setAttribute('type','text/css');
-                style.setAttribute('href','http://dev/BalloonGithubIssues/web/css/bootstrap_1.4.0.min.css');
+                style.setAttribute('href','http://dev/BalloonGithubIssues/web/bootstrap/bootstrap.css');
+                js = document.createElement('script');
+                js.setAttribute('type','text/javascript');
+                js.setAttribute('src','http://dev/BalloonGithubIssues/web/js/session-0.4.js');
+                document.getElementsByTagName('head')[0].appendChild(js);
                 style.setAttribute('rel','stylesheet');
                 document.getElementsByTagName('html')[0].setAttribute('style','overflow-y:hidden;')
                 document.getElementsByTagName('head')[0].insertBefore(style);
+                var isFlashPresent = false;
+                window.session = {start: function(sess){
+                    userData = ' screensize:'+session.device.screen.width+'x'+session.device.screen.height+',';
+                    userData += ' browser:'+session.browser.browser+'/'+session.browser.version+':'+session.browser.os+',';
+                    userData += ' lang:'+session.locale.lang+',';
+                    userData += ' flash:'+session.plugins.flash+',';
+                    document.getElementById('form_userData').value=userData;
+
+                }}
                 ");
             } else {
                 return new Response("
                 <script type='text/javascript'>
-                var js = document.createElement('script');
-                js.setAttribute('type','text/javascript');  
-                js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
-                document.getElementsByTagName('head')[0].appendChild(js);
+                    var js = document.createElement('script');
+                    js.setAttribute('type','text/javascript');  
+                    js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
+                    document.getElementsByTagName('head')[0].appendChild(js);
                 </script>
             ");
             }
         } else {
-
-    return $app['twig']->render('add.html.twig', array(
-        'form'          => $form->createView(),
-        'issue'         => $request->request->get('issue', null),
-        'description'   => $request->request->get('description', null),
-    )); }
+            return $app['twig']->render('add.html.twig', array(
+                'form'          => $form->createView(),
+                'issue'         => $request->request->get('issue', null),
+                'description'   => $request->request->get('description', null),
+            ));
+        }
 })
 ->bind('add');
 
@@ -148,7 +181,7 @@ $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use
 // log in
 $app->get('/login', function (Request $request) use ($app) {
 
-    if($request->request->has('bookmarklet')) {
+    if ($request->request->has('bookmarklet')) {
         if (true === $app['github']->login($request->request->get('username'), $request->request->get('password'))) {
             $request->getSession()->set(
                 'user', array(
@@ -158,10 +191,10 @@ $app->get('/login', function (Request $request) use ($app) {
         }
         return new Response("
         <script type='text/javascript'>
-        var js = document.createElement('script');
-        js.setAttribute('type','text/javascript');  
-        js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
-        document.getElementsByTagName('head')[0].appendChild(js);
+            var js = document.createElement('script');
+            js.setAttribute('type','text/javascript');  
+            js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
+            document.getElementsByTagName('head')[0].appendChild(js);
         </script> 
         ");
     }
@@ -188,7 +221,7 @@ $app->get('/logout', function (Request $request) use ($app) {
     $app['user'] = null;
     $request->getSession()->set('user', null);
     $request->getSession()->setFlash('success', 'You successfully logged out!');
-    if($request->query->has('bookmarklet')) {
+    if ($request->query->has('bookmarklet')) {
         return new Response("
                     <script type='text/javascript'>
                         var js = document.createElement('script');
