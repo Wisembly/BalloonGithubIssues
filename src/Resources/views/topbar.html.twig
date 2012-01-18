@@ -5,10 +5,10 @@
           <a class="brand" href="{{ path('index') }}">{{ "balloon_github_issues" | trans }}</a>
           {% if app['user'] is defined and app['user'] != null %}
               <p class="pull-right">
-                  {{ 'logged_as' | trans }} {{ app['user']['username'] }} 
+                  {{ 'logged_as' | trans }} {{ app['user']['username'] }}
                     <a href="
                             {% if bookmarklet is defined %}
-                                    {{ url('logout', { 'bookmarklet' : 1}) }} 
+                                    {{ url('logout', { 'bookmarklet' : 1}) }}
                                 {% else %}
                                     {{ url('login') }}
                             {% endif %}">
@@ -26,3 +26,4 @@
       </div>
     </div>
 {% endblock %}
+

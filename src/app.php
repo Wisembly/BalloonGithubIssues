@@ -75,7 +75,7 @@ $app->match('/add', function (Request $request) use ($app) {
                 $files['fileUpload']->move(__DIR__.'/../web/upload/', $filename);
                 $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';
                 $fileUrl = $protocol.'://'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
-                $body .= "\n\n".'[Included Screenshot]('.$fileUrl.')';
+                $body .= "\n\n".'<img src="'.$fileUrl.'" alt="Included Screenshot" style="max-width: 712px;" /><br/>[See fullsize]('.$fileUrl.')';
             }
 
             $result = $app['github']->addIssue(
