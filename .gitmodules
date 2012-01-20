@@ -22,6 +22,3 @@
 [submodule "vendor/Symfony/Component/Translation"]
 	path = vendor/Symfony/Component/Translation
 	url = git://github.com/symfony/Translation.git
-[submodule "vendor/Symfony/Component/HttpFoundation"]
-	path = vendor/Symfony/Component/HttpFoundation
-	url = git://github.com/symfony/HttpFoundation.git
