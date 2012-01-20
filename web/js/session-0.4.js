@@ -9,7 +9,7 @@
 (function(win, doc, nav){
   // Changing the API Version invalidates olde cookies with previous api version tags.
   var API_VERSION = 0.4;
-  
+
   // Settings: defaults
   var options = {
     // Use the HTML5 Geolocation API
@@ -32,7 +32,7 @@
     // Session cookie name (set blank to disable cookie)
     session_cookie: "first_session"
   };
-  
+
   // Session object
   var SessionRunner = function(){
     // Helper for querying.
@@ -104,8 +104,8 @@
       } }
     check_asynch();
   };
-  
-  
+
+
   // Browser (and OS) detection
   var browser = {
     detect: function(){
@@ -160,7 +160,7 @@
         { string: nav.userAgent, subString: "Android", identity: "Android" }
       ]}
   };
-  
+
   var modules = {
     browser: function(){
       return browser.detect();
@@ -221,7 +221,7 @@
         silverlight: check_plugin("silverlight"),
         java:        check_plugin("java"),
         quicktime:   check_plugin("quicktime")
-      }; 
+      };
     },
     session: function (cookie, expires){
       var session = util.get_obj(cookie);
@@ -260,7 +260,7 @@
               session.search.query  = terms; session.search.terms  = terms.split(" ");
               break;
             }
-          } 
+          }
         }
       } else {
         session.last_visit = new Date().getTime();
@@ -323,7 +323,7 @@
         util.embed_script("http://api.ipinfodb.com/v3/ip-city/?key=" + api_key + "&format=json&callback=ipinfocb");
       }}
   };
-  
+
   // Utilities
   var util = {
     parse_url: function(url_str){
@@ -370,11 +370,11 @@
       element.src  = url;
       doc.getElementsByTagName("body")[0].appendChild(element);
     },
-    package_obj: function (obj){
-    
+    package_obj: function (obj){    /*
+
       obj.version = API_VERSION;
       var ret = JSON.stringify(obj);
-      delete obj.version; return ret;
+      delete obj.version; return ret;*/
     },
     get_obj: function(cookie_name){
       var obj;
@@ -384,7 +384,7 @@
       }
     }
   };
-  
+
   // JSON
   var JSON = {
     parse: (win.JSON && win.JSON.parse) || function(data){
@@ -413,3 +413,4 @@
   SessionRunner();
 
 })(window, document, navigator);
+

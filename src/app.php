@@ -21,6 +21,17 @@ $app->get('/', function (Request $request) use ($app) {
 })
 ->bind('index');
 
+$app->get('/bookmarklet/{action}', function (Request $request, $action) use ($app) {
+    switch($action){
+        case 'remove':
+            $params = "{'action':'remove'}";
+        break;
+    }
+    $out = "window.parent.postMessage($params, '*');";
+    return "<script type='text/javascript'>$out</script>";
+})
+->bind('bookmarklet');
+
 // add an issue
 $app->match('/add', function (Request $request) use ($app) {
 
@@ -44,15 +55,15 @@ $app->match('/add', function (Request $request) use ($app) {
 
     $userData = $app['github']->getUserData();
 
-    $form = $app['form.factory']->createBuilder('form') 
+    $form = $app['form.factory']->createBuilder('form')
             ->add('issue', 'text', array(
                 'label'     => $app['translator']->trans('issue'),
                 'required'  => true,
             ))
             ->add('description', 'textarea', array(
-                'label'     => $app['translator']->trans('description'), 
+                'label'     => $app['translator']->trans('description'),
                 'required'  => false,
-            )) 
+            ))
             ->add('fileUpload', 'file', array(
                 'label'     => $app['translator']->trans('fileupload'),
                 'required'  => false
@@ -86,24 +97,9 @@ $app->match('/add', function (Request $request) use ($app) {
                     'body'      => $body,
                 ));
 
-            if (!empty($result) && !isset($result['message'])) {
+           if (!empty($result) && !isset($result['message'])) {
                 if ($request->request->get('bookmarklet')) {
-                    return new Response("
-                        <script type='text/javascript'>
-                            window.
-                            parent.
-                            document.
-                            getElementById('BalloonGithubIssuesFrame').
-                            parentNode.
-                            removeChild(
-                                window.
-                                parent.
-                                document.
-                                getElementById('BalloonGithubIssuesFrame'
-                                )
-                            );
-                        </script>
-                    ");
+                    return $app->redirect($app['url_generator']->generate('bookmarklet',array('action'=>'remove')));
                 } else {
                     $request->getSession()->setFlash('success', 'You successfully created your issue!');
                     return $app->redirect($app['url_generator']->generate('index'));
@@ -113,14 +109,15 @@ $app->match('/add', function (Request $request) use ($app) {
 
         $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!<br/>'.json_encode($result['errors']));
     }
-    
+
         if ($request->query->get('src') == 'bookmarklet.js') {
             $iframeid = $request->query->get('iframeid');
             if (!$request->query->has('redirect')) {
                 $f =  $app['twig']->render('add.html.twig', array(
                     'form'          => $form->createView(),
                     'bookmarklet'   => true,
-                )); 
+                    'host'          => $app['config']['host'],
+                ));
                 return new Response("
                 var a=".json_encode($f).";
                 document.getElementsByTagName('body')[0].innerHTML=a;
@@ -145,14 +142,13 @@ $app->match('/add', function (Request $request) use ($app) {
                     userData += ' lang:'+session.locale.lang+',';
                     userData += ' flash:'+session.plugins.flash+',';
                     document.getElementById('form_userData').value=userData;
-
                 }}
                 ");
             } else {
                 return new Response("
                 <script type='text/javascript'>
                     var js = document.createElement('script');
-                    js.setAttribute('type','text/javascript');  
+                    js.setAttribute('type','text/javascript');
                     js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>
@@ -192,10 +188,10 @@ $app->get('/login', function (Request $request) use ($app) {
         return new Response("
         <script type='text/javascript'>
             var js = document.createElement('script');
-            js.setAttribute('type','text/javascript');  
+            js.setAttribute('type','text/javascript');
             js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
             document.getElementsByTagName('head')[0].appendChild(js);
-        </script> 
+        </script>
         ");
     }
 
@@ -225,7 +221,7 @@ $app->get('/logout', function (Request $request) use ($app) {
         return new Response("
                     <script type='text/javascript'>
                         var js = document.createElement('script');
-                        js.setAttribute('type','text/javascript');  
+                        js.setAttribute('type','text/javascript');
                         js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid=20');
                         document.getElementsByTagName('head')[0].appendChild(js);
                     </script> ");
@@ -257,3 +253,4 @@ $app->before(function(Request $request) use ($app) {
 });
 
 return $app;
+

@@ -1,16 +1,17 @@
 #BalloonGithubIssuesFrame{
     z-index: 100000;
     position: fixed;
-    top: 45px;
-    right: 60px;
-    height:380px;
+    top: 60px;
+    right: 10px;
+    height:385px;
     width: 450px;
-    background-color: #262626;
+    background-color: #ffffff;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 30px;
-    border : 2px solid #262626;
+    box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
+    border : none;
     overflow: hidden;
 }
+

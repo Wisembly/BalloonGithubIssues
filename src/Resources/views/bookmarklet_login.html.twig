@@ -1,24 +1,29 @@
-<div class="topbar" style="position:absolute; background-color:#e5e5e5;">
-    <h3>
-       {{ "balloon_github_issues" | trans }}
-    </h3>
+<div class="topbar">
+    <div class="fill">
+        <div class="container">
+            <a class="brand" href="{{ path('index') }}">
+                {{ "github_issues" | trans }}
+            </a>
+        </div>
+    </div>
 </div>
 
-<div class="row" style="position:absolute; top:90px; left:35px;">
+<div class="row login-message">
     {{ "please_login" | trans }}
 </div>
 
-<div class="content" style="position:absolute; top:130px;">
-    <form action="{{ url('login') }}" method="POST" class="pull-right">
-        <div class="row">
-            <input class="input bookmarklet-input" type="text" name="username" placeholder="Username">
-        </div>
-        <br/>
-        <div class="row">
-            <input class="input bookmarklet-input" type="password" name="password" placeholder="Password">
-        </div>
-        <br/>
-        <button class="btn pull-right" type="submit">{{ 'login' | trans }}</button>
-        <input type="hidden" name="bookmarklet"/>
-    </form>
-</div>
+<form class="login-form" action="{{ url('login') }}" method="POST">
+    <div class="row">
+        <input class="input bookmarklet-input" type="text" name="username" placeholder="Username">
+    </div>
+    <br/>
+    <div class="row">
+        <input class="input bookmarklet-input" type="password" name="password" placeholder="Password">
+    </div>
+    <br/>
+    <button class="btn pull-right" type="submit">
+        {{ 'login' | trans }}
+    </button>
+    <input type="hidden" name="bookmarklet"/>
+</form>
+

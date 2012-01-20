@@ -3,9 +3,8 @@
 function initBookMarkLet()
 {
     // config
-    var host = 'http://dev/BalloonGithubIssues/web';
-    var cssStyle = 'http://dev/BalloonGithubIssues/web/css/bookmarklet_frame_style.css';
-
+    var base_url = "http://dev/BalloonGithubIssues/web";
+    var cssStyle = base_url + '/css/bookmarklet_frame_style.css';
 
     // Create and insert the main container
     var container = document.createElement('iframe');
@@ -15,13 +14,18 @@ function initBookMarkLet()
     // Load javascript...
     var js = document.createElement('script');
     js.setAttribute('type','text/javascript');
-    js.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js');
+    js.setAttribute('src', base_url+'/js/jquery-1.7.1.min.js');
     container.contentWindow.document.getElementsByTagName('head')[0].appendChild(js);
 
     var js = document.createElement('script');
     js.setAttribute('type','text/javascript');
-    js.setAttribute('src','http://dev/BalloonGithubIssues/web/add?src=bookmarklet.js&iframeid='+iframeId);
+    js.setAttribute('src', base_url + '/add?src=bookmarklet.js');
     container.contentWindow.document.getElementsByTagName('head')[0].appendChild(js);
+
+    var gif_loader = document.createElement('img');
+    gif_loader.setAttribute('src', base_url+'/img/loader.gif');
+    gif_loader.setAttribute('style','position:absolute; left:150px; top:145px;');
+    container.contentWindow.document.getElementsByTagName('body')[0].appendChild(gif_loader);
 
     //...and styles
     var style = document.createElement('link');
@@ -31,13 +35,18 @@ function initBookMarkLet()
     document.getElementsByTagName('body')[0].insertBefore(style);
 
     // Show BookMarkLet
-    $('#'+iframeId).fadeIn('slow');
+    document.getElementById(iframeId).style.display="block";
 }
 
-function closeIframe(iframeId)
-{
-    var iframe = document.getElementById(iframeId);
-    iframe.parentNode.removeChild(iframe);
+function onMessage(e) {
+    var frameObject = document.getElementById(iframeId);
+    switch(e.data.action){
+        case 'remove':
+            frameObject.parentNode.removeChild(frameObject);
+        break;
+    }
 }
 
+window.addEventListener("message", onMessage, true);
 initBookMarkLet();
+

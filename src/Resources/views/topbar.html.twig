@@ -2,19 +2,28 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="{{ path('index') }}">{{ "balloon_github_issues" | trans }}</a>
+          <a class="brand" href="{{ path('index') }}">{{ "github_issues" | trans }}</a>
+          {% if bookmarklet is not defined %}
+              <a href="javascript: s = document.createElement('script');
+                                   s.setAttribute('type','text/javascript');
+                                   s.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');
+                                   s.setAttribute('id','main_js_container');
+                                   j = document.createElement('script');
+                                   j.setAttribute('type','text/javascript');
+                                   j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js');
+                                   document.getElementsByTagName('head')[0].appendChild(j);
+                                   document.getElementsByTagName('head')[0].appendChild(s);">
+                                   Bookmarklet </a>
+          {% endif %}
           {% if app['user'] is defined and app['user'] != null %}
-              <p class="pull-right">
-                  {{ 'logged_as' | trans }} {{ app['user']['username'] }}
-                    <a href="
-                            {% if bookmarklet is defined %}
-                                    {{ url('logout', { 'bookmarklet' : 1}) }}
-                                {% else %}
-                                    {{ url('login') }}
-                            {% endif %}">
-                        {{ 'logout' | trans }}
-                    </a>
-              </p>
+              {% if bookmarklet is defined %}
+                  <a class="btn danger bookmarklet-quit" href="{{ url('bookmarklet',{'action':'remove'}) }}">Close</a>
+              {% else %}
+                  <p class="pull-right">
+                      {{ 'logged_as' | trans }} {{ app['user']['username'] }}
+                        <a href="{{ url('logout') }}">{{ 'logout' | trans }}</a>
+                  </p>
+              {% endif %}
           {% else %}
               <form action="{{ path('login') }}" method="POST" class="pull-right">
                 <input class="input-small" type="text" name="username" placeholder="Username">

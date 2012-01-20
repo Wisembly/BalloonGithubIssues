@@ -1,9 +1,7 @@
 /* Override some defaults */
 html, body {
-  background-color: #eee;
   width: 100px;
 }
-
 .span16 {
   width:445px;
 }
@@ -20,102 +18,6 @@ body {
   width: 445px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
 }
 
-/* The white background content wrapper */
-.content {
-  background-color: #fff;
-  padding: 20px;
-  margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-          box-shadow: 0 1px 2px rgba(0,0,0,.15);
-}
-
-/* Page header tweaks */
-.page-header {
-  background-color: #f5f5f5;
-  padding: 20px 20px 10px;
-  margin: -20px -20px 20px;
-}
-
-.tabs {
-    margin-top: 10px;
-    margin-bottom: -10px;
-    border: none;
-}
-
-/* Styles you shouldn't keep as they are for displaying this base example only */
-.content .span10,
-.content .span4 {
-  min-height: 500px;
-}
-/* Give a quick and non-cross-browser friendly divider */
-.content .span4 {
-  margin-left: 0;
-  padding-left: 19px;
-  border-left: 1px solid #eee;
-}
-
-.topbar .btn {
-  border: 0;
-}
-
-.input-small {
-    height: 27px;
-    width: 109px;
-    padding-top: 5px;
-}
-
-.modal-footer small {
-    float: right;
-    color: #aaa;
-    font-size: 10px;
-}
-
-.float-right {
-    float: right;
-}
-
-.float-left {
-    float: left;
-}
-
-.inline {
-    display: inline-block;
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 4px 15px;
-  clear: both;
-  font-weight: normal;
-  line-height: 18px;
-  color: #808080;
-  text-shadow: 0 1px 0 #ffffff;
-  font-size: 12px;
-}
-
-ul.dropdown-menu {
-    top: 30px;
-}
-
-small {
-    color: #484848;
-    font-size: 10px;
-    font-weight: bold;
-}
-
-#addIssue label {
-    width: 200px;
-    margin-right: 15px;
-}
-
-#addIssue div {
-    margin-bottom: 15px;
-}
-
 #addIssue input {
     width: 200px;
     height: 35px;
@@ -127,21 +29,9 @@ small {
     width: 200px;
 }
 
-
-/* bookmarklet's login */
-
-.addform-item input {
-    width:270px;
-    height:35px;
-}
-
-.addform-item textarea {
-    width:350px;
-    height:100px;
-}
-
-.bookmarklet-input {
-    width:270px;
-    height:35px;
+.bookmarklet-quit {
+    position:absolute;
+    left: 380px;
+    top: 5px;
 }
 
