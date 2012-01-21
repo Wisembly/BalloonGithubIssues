@@ -15,8 +15,8 @@ class Bookmarklet {
     {
         switch ($dispatch) {
             case 'login_form':
-                return "var a=".json_encode($view).";
-                    document.getElementsByTagName('body')[0].innerHTML=a;
+                return "
+                    document.getElementsByTagName('body')[0].innerHTML=".json_encode($view).";
                     var style = document.createElement('link');
                     style.setAttribute('type','text/css');
                     style.setAttribute('href','".$this->base_url."/bootstrap/bootstrap.css');
@@ -31,8 +31,8 @@ class Bookmarklet {
             break;
 
             case 'add_issue':
-                return "var a=".json_encode($view).";
-                document.getElementsByTagName('body')[0].innerHTML=a;
+                return "
+                document.getElementsByTagName('body')[0].innerHTML=".json_encode($view).";
                 var img = document.createElement('img');
                 img.setAttribute('src','".$params['avatar_url']."');
                 img.setAttribute('style','width:55px; position:absolute; top:80px; left:10px; height:55px;');
@@ -56,20 +56,12 @@ class Bookmarklet {
                 }}";
             break;
 
+            case 'login':
             case 'redirect':
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
                     js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js');
-                    document.getElementsByTagName('head')[0].appendChild(js);
-                </script>";
-            break;
-
-            case 'login':
-                return "<script type='text/javascript'>
-                    var js = document.createElement('script');
-                    js.setAttribute('type','text/javascript');
-                    js.setAttribute('src','".$this->base_url."/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
