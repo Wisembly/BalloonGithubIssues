@@ -47,7 +47,6 @@ class Bookmarklet {
                 style.setAttribute('rel','stylesheet');
                 document.getElementsByTagName('html')[0].setAttribute('style','overflow-y:hidden;')
                 document.getElementsByTagName('head')[0].insertBefore(style);
-                var isFlashPresent = false;
                 window.session = {start: function(sess){
                     userData = ' screensize:'+session.device.screen.width+'x'+session.device.screen.height+',';
                     userData += ' browser:'+session.browser.browser+'/'+session.browser.version+':'+session.browser.os+',';
@@ -61,7 +60,7 @@ class Bookmarklet {
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js&iframeid=20');
+                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
@@ -70,7 +69,7 @@ class Bookmarklet {
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src','".$this->base_url."/add?src=bookmarklet.js&iframeid=20');
+                    js.setAttribute('src','".$this->base_url."/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
@@ -79,11 +78,11 @@ class Bookmarklet {
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js&iframeid=20');
+                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
         }
     }
 }
-    
+
