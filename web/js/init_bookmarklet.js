@@ -4,7 +4,7 @@ function initBookMarkLet()
 {
     // config
     var base_url = document.getElementById('balloon_github_issues_bookmarklet').getAttribute('class');
-    var cssStyle = base_url + '/css/style.css';
+    var cssStyle = base_url + '/css/bookmarklet_frame.css';
 
     // Create and insert the main container
     var container = document.createElement('iframe');
@@ -32,7 +32,7 @@ function initBookMarkLet()
     style.setAttribute('type','text/css');
     style.setAttribute('href',cssStyle);
     style.setAttribute('rel','stylesheet');
-    document.getElementsByTagName('body')[0].insertBefore(style,document.getElementsByTagName('link')[0]);
+    document.getElementsByTagName('head')[0].insertBefore(style);
 
     // Show BookMarkLet
     document.getElementById(iframeId).style.display="block";
