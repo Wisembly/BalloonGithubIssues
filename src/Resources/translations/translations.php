@@ -2,6 +2,8 @@
 
 $app['translator.messages'] = array(
     'en' => array(
+        'username'      => 'Username',
+        'password'      => 'Password',
         'login'         => 'Log in',
         'logout'        => 'Log out',
         'logged_as'     => 'Logged as',
@@ -23,8 +25,12 @@ $app['translator.messages'] = array(
         'no_milestone'  => 'No milestone here',
         'open'          => 'Open issues',
         'closes'        => 'Closed issues',
+        'github_issues' => 'Balloon Github Issues',
+        'please_login'  => 'Please Login',
     ),
     'fr' => array(
+        'username'      => 'Identifiant',
+        'password'      => 'Mot de passe',
         'login'         => 'Connexion',
         'logout'        => 'Déconnexion',
         'logged_as'     => 'Loggué en tant que',
@@ -46,5 +52,7 @@ $app['translator.messages'] = array(
         'no_milestone'  => 'Pas de date butoir ici',
         'open'          => 'Issues non résolues',
         'closes'        => 'Issues résolues',
+        'github_issues' => 'Balloon Github Issues',
+        'please_login'  => 'Veuilez vous identifier',
     ),
 );

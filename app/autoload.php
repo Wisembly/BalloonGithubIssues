@@ -8,6 +8,7 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony'           => __DIR__.'/../vendor',
     'GithubApi_v3'      => __DIR__.'/../lib',
+    'Bookmarklet'       => __DIR__.'/../lib',
 ));
 
 $loader->registerPrefixes(array(

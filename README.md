@@ -22,9 +22,9 @@ Chmod your upload dir
 ## Config
 
 * `debug` : `boolean` -> whether in production or not
+* `base_url` : `string` -> url to your web directory, where index.php is located
 * `locale`: `string` -> default app language (en, fr currently)
 * `repositories` : `array` -> list of repositories managed by the tool
-* `labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)
 
 ## Requirements
 
@@ -33,4 +33,4 @@ Chmod your upload dir
 
 ## TODO
 
-* debug labels not assigned when creating a new issue
+* add label(s) when creating a new issue

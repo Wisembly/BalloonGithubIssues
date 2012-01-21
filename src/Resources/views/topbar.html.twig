@@ -2,15 +2,27 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="{{ path('index') }}">Balloon GitHub Issues</a>
+          <a class="brand" href="{{ path('index') }}">{{ "github_issues" | trans }}</a>
+          {% if bookmarklet is not defined %}
+            <ul>
+                <li>
+                    <a href="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('id','balloon_github_issues_bookmarklet');e.setAttribute('class', '{{ app['config']['base_url'] }}');e.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');document.body.appendChild(e);})());">Bookmarklet </a>
+                    </li>
+            </ul>
+          {% endif %}
           {% if app['user'] is defined and app['user'] != null %}
-              <p class="pull-right">
-                  {{ 'logged_as' | trans }} {{ app['user']['username'] }} <a href="{{ path('logout') }}">{{ 'logout' | trans }}</a>
-              </p>
+              {% if bookmarklet is defined %}
+                  <a class="btn danger bookmarklet-quit" href="{{ url('bookmarklet',{'action':'remove'}) }}">Close</a>
+              {% else %}
+                  <p class="pull-right">
+                      {{ 'logged_as' | trans }} {{ app['user']['username'] }}
+                        <a href="{{ url('logout') }}">{{ 'logout' | trans }}</a>
+                  </p>
+              {% endif %}
           {% else %}
               <form action="{{ path('login') }}" method="POST" class="pull-right">
-                <input class="input-small" type="text" name="username" placeholder="Username">
-                <input class="input-small" type="password" name="password" placeholder="Password">
+                <input class="input-small" type="text" name="username" placeholder="{{ 'username' | trans }}">
+                <input class="input-small" type="password" name="password" placeholder="{{ 'password' | trans }}">
                 <button class="btn" type="submit">{{ 'login' | trans }}</button>
               </form>
           {% endif %}
@@ -18,3 +30,4 @@
       </div>
     </div>
 {% endblock %}
+

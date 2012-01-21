@@ -3,8 +3,10 @@
 return array(
     'debug'     => true,
     'locale'    => 'en',
+    'base_url'      => 'http://yourdomain/path/to/web',
     'repositories'  =>  array(
             array('user' => 'balloon', 'repo' => 'balloon4'),
             array('user' => 'balloon', 'repo' => 'balloon5'),
         ),
 );
+

@@ -1,8 +1,11 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-// issues list
+/** 
+* Get issues list
+**/
 $app->get('/', function (Request $request) use ($app) {
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
     $milestones = $app['github']->getMilestones($app['repo']['user'], $app['repo']['repo']);
@@ -20,19 +23,45 @@ $app->get('/', function (Request $request) use ($app) {
 })
 ->bind('index');
 
-// add an issue
+/** 
+* Close bookmarklet
+**/
+$app->get('/bookmarklet/{action}', function (Request $request, $action) use ($app) {
+    switch($action){
+        case 'remove':
+            $params = "{'action':'remove'}";
+        break;
+    }
+    return "<script type='text/javascript'>window.parent.postMessage($params, '*');</script>";
+})
+->assert('action', 'remove')
+->bind('bookmarklet');
+
+/** 
+* Add an issue
+**/
 $app->match('/add', function (Request $request) use ($app) {
-    $form = $app['form.factory']->createBuilder('form') 
+
+    if ($request->get('src') == 'bookmarklet.js' && false == $app['github']->isLogged()) {
+        return new Response($app['bookmarklet']->render('login_form', $app['twig']->render('bookmarklet_login.html.twig', array())));
+    }
+
+    $userData = $app['github']->getUserData();
+
+    $form = $app['form.factory']->createBuilder('form')
             ->add('issue', 'text', array(
                 'label'     => $app['translator']->trans('issue'),
                 'required'  => true,
             ))
             ->add('description', 'textarea', array(
-                'label'     => $app['translator']->trans('description'), 
+                'label'     => $app['translator']->trans('description'),
                 'required'  => false,
-            )) 
+            ))
             ->add('fileUpload', 'file', array(
                 'label'     => $app['translator']->trans('fileupload'),
+                'required'  => false
+            ))
+            ->add('userData', 'hidden', array(
                 'required'  => false
             ))
         ->getForm();
@@ -43,13 +72,12 @@ $app->match('/add', function (Request $request) use ($app) {
         if ($form->isValid()) {
             $data = $form->getData();
             $files = $request->files->get($form->getName());
-            $body = $data['description'];
+            $body = $data['description']."<br/>--------------------------<br/><i>".$data['userData']."</i>";
 
             if (isset($files['fileUpload']) && null !== $files['fileUpload']) {
                 $filename = time().'_'.uniqid().'.'.$files['fileUpload']->guessExtension();
                 $files['fileUpload']->move(__DIR__.'/../web/upload/', $filename);
-                $protocol = strpos(strtolower($request->server->get('SERVER_PROTOCOL')),'https') === false ? 'http' : 'https';
-                $fileUrl = $protocol.'://'.$request->server->get('HTTP_HOST').$app['url_generator']->generate('index').'upload/'.$filename;
+                $fileUrl = $app['protocol'].'://'.$app['host'].'/upload/'.$filename;
                 $body .= "\n\n".'<img src="'.$fileUrl.'" alt="Included Screenshot" style="max-width: 712px;" /><br/>[See fullsize]('.$fileUrl.')';
             }
 
@@ -62,23 +90,41 @@ $app->match('/add', function (Request $request) use ($app) {
                 ));
 
             if (!empty($result) && !isset($result['message'])) {
-                $request->getSession()->setFlash('success', 'You successfully created your issue!');
-                return $app->redirect($app['url_generator']->generate('index'));
+                if ($request->request->get('bookmarklet')) {
+                    return $app->redirect($app['url_generator']->generate('bookmarklet',array('action'=>'remove')));
+                } else {
+                    $request->getSession()->setFlash('success', 'You successfully created your issue!');
+                    return $app->redirect($app['url_generator']->generate('index'));
+                }
             }
         }
 
         $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!<br/>'.json_encode($result['errors']));
     }
 
-    return $app['twig']->render('add.html.twig', array(
-        'form'          => $form->createView(),
-        'issue'         => $request->request->get('issue', null),
-        'description'   => $request->request->get('description', null),
-    ));
+    if ($request->query->get('src') == 'bookmarklet.js') {
+        if (!$request->query->has('redirect')) {
+            return new Response($app['bookmarklet']->render(
+                'add_issue', 
+                $app['twig']->render('add.html.twig', array('form' => $form->createView(), 'bookmarklet' => true)), 
+                array('avatar_url' => $userData['avatar_url'])
+            ));
+        } else {
+            return new Response($app['bookmarklet']->render('redirect'));
+        }
+    } else {
+        return $app['twig']->render('add.html.twig', array(
+            'form'          => $form->createView(),
+            'issue'         => $request->request->get('issue', null),
+            'description'   => $request->request->get('description', null),
+        ));
+    }
 })
 ->bind('add');
 
-// change repo
+/** 
+* Change repo
+**/
 $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use ($app) {
     if (null != $user && null != $repo) {
         $request->getSession()->set('repo', array('user' => urldecode($user), 'repo' => urldecode($repo)));
@@ -88,8 +134,22 @@ $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use
 })
 ->bind('change');
 
-// log in
+/** 
+* Log in
+**/
 $app->get('/login', function (Request $request) use ($app) {
+
+    if ($request->request->has('bookmarklet')) {
+        if (true === $app['github']->login($request->request->get('username'), $request->request->get('password'))) {
+            $request->getSession()->set(
+                'user', array(
+                'username' => $request->request->get('username'),
+                'password' => $request->request->get('password'),
+            ));
+        }
+        return new Response($app['bookmarklet']->render('login'));
+    }
+
     if (true === $app['github']->login($request->request->get('username'), $request->request->get('password'))) {
         $request->getSession()->set(
             'user', array(
@@ -102,21 +162,28 @@ $app->get('/login', function (Request $request) use ($app) {
         $request->getSession()->setFlash('error', 'Bad credidentials');
     }
 
-    return $app->redirect($app['url_generator']->generate('index'));
+        return $app->redirect($app['url_generator']->generate('index'));
 })
 ->bind('login')
 ->method('POST');
 
-// log out
+/** 
+* Log out
+**/
 $app->get('/logout', function (Request $request) use ($app) {
     $app['user'] = null;
     $request->getSession()->set('user', null);
     $request->getSession()->setFlash('success', 'You successfully logged out!');
+    if ($request->query->has('bookmarklet')) {
+        return new Response($app['bookmarklet']->render('logout'));
+    }
     return $app->redirect($app['url_generator']->generate('index'));
 })
 ->bind('logout');
 
-// manage logged in user session
+/** 
+* Manage logged user session
+**/
 $app->before(function(Request $request) use ($app) {
     /* Translations management */
     if ($app['config']['locale'] && isset($app['translator.messages'][$app['config']['locale']])) {
