@@ -53,6 +53,20 @@
         <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/js/ux.js"></script>
         <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-modal.js"></script>
         <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-dropdown.js"></script>
+        <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-twipsy.js"></script>
+        <script src="{{ app.request.baseUrl | replace({'/index.php': ''}) }}/bootstrap/js/bootstrap-popover.js"></script>
+        <script>
+             $(function () {
+                 $("a[rel=popover]")
+                    .popover({
+                       offset: 5,
+                       placement: 'below'
+                     })
+                    .click(function(e) {
+                       e.preventDefault()
+                    })
+            });
+        </script>
     {% endblock %}
 </body>
 </html>

@@ -50,6 +50,10 @@ body {
   border-left: 1px solid #eee;
 }
 
+.topbar {
+    z-index: 8888;
+}
+
 .topbar .btn {
   border: 0;
 }
@@ -222,3 +226,15 @@ small {
     overflow: hidden;
 }
 
+.popover {
+    z-index: 9999;
+}
+
+.popover .inner {
+    width: 350px !important;
+}
+
+.popover .content {
+    margin: 0;
+    padding: 5px;
+}

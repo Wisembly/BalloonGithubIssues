@@ -1,6 +1,3 @@
-[submodule "web/bootstrap"]
-	path = web/bootstrap
-	url = git://github.com/twitter/bootstrap.git
 [submodule "vendor/Twig"]
 	path = vendor/Twig
 	url = http://github.com/fabpot/Twig.git
@@ -22,3 +19,6 @@
 [submodule "vendor/Symfony/Component/Translation"]
 	path = vendor/Symfony/Component/Translation
 	url = git://github.com/symfony/Translation.git
+[submodule "web/bootstrap"]
+	path = web/bootstrap
+	url = git://github.com/twitter/bootstrap.git
