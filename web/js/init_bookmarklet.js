@@ -32,7 +32,7 @@ function initBookMarkLet()
     style.setAttribute('type','text/css');
     style.setAttribute('href',cssStyle);
     style.setAttribute('rel','stylesheet');
-    document.getElementsByTagName('body')[0].insertBefore(style);
+    document.getElementsByTagName('body')[0].insertBefore(style,document.getElementsByTagName('link')[0]);
 
     // Show BookMarkLet
     document.getElementById(iframeId).style.display="block";
