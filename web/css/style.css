@@ -93,6 +93,34 @@ body {
   font-size: 12px;
 }
 
+.addform-item input {
+    width:270px;
+    height:35px;
+}
+
+.addform-item textarea {
+    width:350px;
+    height:100px;
+}
+
+.bookmarklet-input {
+    width:270px;
+    height:35px;
+}
+
+.login-form {
+    position:absolute;
+    width:300px;
+    top:90px;
+}
+
+.login-message {
+    position:absolute;
+    top:90px;
+    left:35px;
+}
+
+
 ul.dropdown-menu {
     top: 30px;
 }
@@ -174,5 +202,23 @@ small {
 
 .milestone h3, .milestone p {
     padding-left: 20px;
+}
+
+#BalloonGithubIssuesFrame {
+    z-index: 100000;
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    height:385px;
+    width: 450px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
+    -moz-box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
+    -webkit-box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
+    border : none;
+    overflow: hidden;
 }
 

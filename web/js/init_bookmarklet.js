@@ -1,10 +1,10 @@
-    var iframeId = "BalloonGithubIssuesFrame";
+var iframeId = "BalloonGithubIssuesFrame";
 
 function initBookMarkLet()
 {
     // config
-    var base_url = "http://dev/BalloonGithubIssues/web";
-    var cssStyle = base_url + '/css/bookmarklet_frame_style.css';
+    var base_url = document.getElementById('balloon_github_issues_bookmarklet').getAttribute('class');
+    var cssStyle = base_url + '/css/style.css';
 
     // Create and insert the main container
     var container = document.createElement('iframe');
@@ -49,4 +49,3 @@ function onMessage(e) {
 
 window.addEventListener("message", onMessage, true);
 initBookMarkLet();
-

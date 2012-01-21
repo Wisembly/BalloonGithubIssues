@@ -22,9 +22,9 @@ Chmod your upload dir
 ## Config
 
 * `debug` : `boolean` -> whether in production or not
+* `base_url` : `string` -> url to your web directory, where index.php is located
 * `locale`: `string` -> default app language (en, fr currently)
 * `repositories` : `array` -> list of repositories managed by the tool
-* `labels` : `array` -> auto-assign labels for new issues (yet, must be existing labels)
 
 ## Requirements
 
@@ -33,16 +33,4 @@ Chmod your upload dir
 
 ## TODO
 
-* debug labels not assigned when creating a new issue
-
-## Bookmarklet :
-
-javascript:
- s = document.createElement('script'); <br/>
- s.setAttribute('type','text/javascript'); <br/>
- s.setAttribute('src','http://dev/BalloonGithubIssues/web/js/init_bookmarklet.js'); <br/>
- s.setAttribute('id','main_js_container'); <br/>
- j = document.createElement('script'); <br/>
- j.setAttribute('type','text/javascript'); <br/>
- j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js'); <br/>
- document.getElementsByTagName('head')[0].appendChild(j);document.getElementsByTagName('head')[0].appendChild(s); <br/>
+* add label(s) when creating a new issue

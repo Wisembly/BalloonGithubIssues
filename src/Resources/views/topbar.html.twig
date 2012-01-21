@@ -4,16 +4,11 @@
         <div class="container">
           <a class="brand" href="{{ path('index') }}">{{ "github_issues" | trans }}</a>
           {% if bookmarklet is not defined %}
-              <a href="javascript: s = document.createElement('script');
-                                   s.setAttribute('type','text/javascript');
-                                   s.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');
-                                   s.setAttribute('id','main_js_container');
-                                   j = document.createElement('script');
-                                   j.setAttribute('type','text/javascript');
-                                   j.setAttribute('src','http://code.jquery.com/jquery-1.7.1.min.js');
-                                   document.getElementsByTagName('head')[0].appendChild(j);
-                                   document.getElementsByTagName('head')[0].appendChild(s);">
-                                   Bookmarklet </a>
+            <ul>
+                <li>
+                    <a href="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('id','balloon_github_issues_bookmarklet');e.setAttribute('class', '{{ app['config']['base_url'] }}');e.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');document.body.appendChild(e);})());">Bookmarklet </a>
+                    </li>
+            </ul>
           {% endif %}
           {% if app['user'] is defined and app['user'] != null %}
               {% if bookmarklet is defined %}
@@ -26,8 +21,8 @@
               {% endif %}
           {% else %}
               <form action="{{ path('login') }}" method="POST" class="pull-right">
-                <input class="input-small" type="text" name="username" placeholder="Username">
-                <input class="input-small" type="password" name="password" placeholder="Password">
+                <input class="input-small" type="text" name="username" placeholder="{{ 'username' | trans }}">
+                <input class="input-small" type="password" name="password" placeholder="{{ 'password' | trans }}">
                 <button class="btn" type="submit">{{ 'login' | trans }}</button>
               </form>
           {% endif %}

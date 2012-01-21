@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="fill">
         <div class="container">
-            <a class="brand" href="{{ path('index') }}">
+            <a href="#">
                 {{ "github_issues" | trans }}
             </a>
         </div>
@@ -14,11 +14,11 @@
 
 <form class="login-form" action="{{ url('login') }}" method="POST">
     <div class="row">
-        <input class="input bookmarklet-input" type="text" name="username" placeholder="Username">
+        <input class="input bookmarklet-input" type="text" name="username" placeholder="{{ 'username' | trans }}">
     </div>
     <br/>
     <div class="row">
-        <input class="input bookmarklet-input" type="password" name="password" placeholder="Password">
+        <input class="input bookmarklet-input" type="password" name="password" placeholder="{{ 'password' | trans }}">
     </div>
     <br/>
     <button class="btn pull-right" type="submit">
