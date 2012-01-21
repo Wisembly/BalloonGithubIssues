@@ -61,7 +61,7 @@ class Bookmarklet {
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js');
+                    js.setAttribute('src', '".$this->base_url."/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
@@ -70,7 +70,7 @@ class Bookmarklet {
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js');
+                    js.setAttribute('src', '".$this->base_url."/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
