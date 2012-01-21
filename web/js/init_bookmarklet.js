@@ -19,7 +19,7 @@ function initBookMarkLet()
 
     var js = document.createElement('script');
     js.setAttribute('type','text/javascript');
-    js.setAttribute('src', base_url + '/add?src=bookmarklet.js');
+    js.setAttribute('src', base_url + 'add?src=bookmarklet.js');
     container.contentWindow.document.getElementsByTagName('head')[0].appendChild(js);
 
     var gif_loader = document.createElement('img');
@@ -49,3 +49,4 @@ function onMessage(e) {
 
 window.addEventListener("message", onMessage, true);
 initBookMarkLet();
+
