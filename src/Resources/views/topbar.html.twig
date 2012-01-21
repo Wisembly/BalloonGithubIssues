@@ -6,7 +6,7 @@
           {% if bookmarklet is not defined %}
             <ul>
                 <li>
-                    <a href="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('id','balloon_github_issues_bookmarklet');e.setAttribute('class', '{{ app['config']['base_url'] }}');e.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');document.body.appendChild(e);})());">Bookmarklet </a>
+                    <a id="bookmarklet" href="javascript:void((function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('id','balloon_github_issues_bookmarklet');e.setAttribute('class', '{{ app['config']['base_url'] }}');e.setAttribute('src','{{ app['config']['base_url']}}/js/init_bookmarklet.js');document.body.appendChild(e);})());" rel="popover" data-content="{{ 'help_bookmarklet' | trans }}" data-original-title="{{ 'github_issues' | trans }} Bookmarklet">Bookmarklet</a>
                     </li>
             </ul>
           {% endif %}
