@@ -208,24 +208,6 @@ small {
     padding-left: 20px;
 }
 
-#BalloonGithubIssuesFrame {
-    z-index: 100000;
-    position: fixed;
-    top: 60px;
-    right: 10px;
-    height:385px;
-    width: 450px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
-    -moz-box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
-    -webkit-box-shadow: rgba(50, 50, 50, 0.597656) 0px 0px 150px;
-    border : none;
-    overflow: hidden;
-}
-
 .popover {
     z-index: 9999;
 }
@@ -238,3 +220,4 @@ small {
     margin: 0;
     padding: 5px;
 }
+

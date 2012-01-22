@@ -15,8 +15,8 @@ class Bookmarklet {
     {
         switch ($dispatch) {
             case 'login_form':
-                return "var a=".json_encode($view).";
-                    document.getElementsByTagName('body')[0].innerHTML=a;
+                return "
+                    document.getElementsByTagName('body')[0].innerHTML = ".json_encode($view).";
                     var style = document.createElement('link');
                     style.setAttribute('type','text/css');
                     style.setAttribute('href','".$this->base_url."/bootstrap/bootstrap.css');
@@ -31,8 +31,8 @@ class Bookmarklet {
             break;
 
             case 'add_issue':
-                return "var a=".json_encode($view).";
-                document.getElementsByTagName('body')[0].innerHTML=a;
+                return "
+                document.getElementsByTagName('body')[0].innerHTML = ".json_encode($view).";
                 var img = document.createElement('img');
                 img.setAttribute('src','".$params['avatar_url']."');
                 img.setAttribute('style','width:55px; position:absolute; top:80px; left:10px; height:55px;');
@@ -47,43 +47,25 @@ class Bookmarklet {
                 style.setAttribute('rel','stylesheet');
                 document.getElementsByTagName('html')[0].setAttribute('style','overflow-y:hidden;')
                 document.getElementsByTagName('head')[0].insertBefore(style);
-                var isFlashPresent = false;
                 window.session = {start: function(sess){
                     userData = ' screensize:'+session.device.screen.width+'x'+session.device.screen.height+',';
                     userData += ' browser:'+session.browser.browser+'/'+session.browser.version+':'+session.browser.os+',';
                     userData += ' lang:'+session.locale.lang+',';
                     userData += ' flash:'+session.plugins.flash+',';
-                    document.getElementById('form_userData').value=userData;
+                    document.getElementById('form_userData').value = userData;
                 }}";
             break;
 
+            case 'login':
             case 'redirect':
                 return "<script type='text/javascript'>
                     var js = document.createElement('script');
                     js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js&iframeid=20');
-                    document.getElementsByTagName('head')[0].appendChild(js);
-                </script>";
-            break;
-
-            case 'login':
-                return "<script type='text/javascript'>
-                    var js = document.createElement('script');
-                    js.setAttribute('type','text/javascript');
-                    js.setAttribute('src','".$this->base_url."/add?src=bookmarklet.js&iframeid=20');
-                    document.getElementsByTagName('head')[0].appendChild(js);
-                </script>";
-            break;
-
-            case 'logout':
-                return "<script type='text/javascript'>
-                    var js = document.createElement('script');
-                    js.setAttribute('type','text/javascript');
-                    js.setAttribute('src', ".$this->base_url."'/add?src=bookmarklet.js&iframeid=20');
+                    js.setAttribute('src', '".$this->base_url."/add?src=bookmarklet.js');
                     document.getElementsByTagName('head')[0].appendChild(js);
                 </script>";
             break;
         }
     }
 }
-    
+
