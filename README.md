@@ -37,8 +37,8 @@ Chmod your upload dir
 
 ## Screenshots
 
-![add issue bookmarklet](https://github.com/Balloon/BalloonGithubIssues/blob/master/doc/add_an_issue.png)
+![add issue bookmarklet](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/add_an_issue.png)
 <p>Add an issue via Bookmarklet</p>
 
-![add issue bookmarklet 2](https://github.com/Balloon/BalloonGithubIssues/blob/master/doc/add_an_issue_2_.png)
+![add issue bookmarklet 2](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/add_an_issue_2.png)
 <p>Add an issue via Bookmarklet (bis)</p>
