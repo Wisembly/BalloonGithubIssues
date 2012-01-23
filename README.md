@@ -34,3 +34,11 @@ Chmod your upload dir
 ## TODO
 
 * add label(s) when creating a new issue
+
+## Screenshots
+
+![add issue bookmarklet](https://github.com/Balloon/BalloonGithubIssues/blob/master/doc/add_an_issue.png)
+<p>Add an issue via Bookmarklet</p>
+
+![add issue bookmarklet 2](https://github.com/Balloon/BalloonGithubIssues/blob/master/doc/add_an_issue_2_.png)
+<p>Add an issue via Bookmarklet (bis)</p>
