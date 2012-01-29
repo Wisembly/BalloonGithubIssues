@@ -7,3 +7,6 @@ app/logs/
 vendor/
 web/bootstrap/
 web/upload/
+
+nbproject/
+app/config/vhost.conf
