@@ -48,15 +48,18 @@ $app->match('/add', function (Request $request) use ($app) {
 
     $userData = $app['github']->getUserData();
 
-    $repositories = array();
     foreach ($app['config']['repositories'] as $repository) {
-        $repositories[$repository['user'] . '/' . $repository['repo']] = $repository['user'] . '/' . $repository['repo'];
+        $repoInfo = $repository['user'] . '/' . $repository['repo'];
+        $repositories[$repoInfo] = $repoInfo;
     }
+    
+    $defaultRepo = $app['repo']['user'] . '/' . $app['repo']['repo'];
     
     $form = $app['form.factory']->createBuilder('form')
             ->add('repository', 'choice', array(
                 'label'     => $app['translator']->trans('repository'),
                 'choices'   => $repositories,
+                'preferred_choices' => array($defaultRepo => $defaultRepo),
                 'required'  => true,
             ))
             ->add('issue', 'text', array(
