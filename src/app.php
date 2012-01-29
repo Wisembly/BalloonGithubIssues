@@ -48,7 +48,17 @@ $app->match('/add', function (Request $request) use ($app) {
 
     $userData = $app['github']->getUserData();
 
+    $repositories = array();
+    foreach ($app['config']['repositories'] as $repository) {
+        $repositories[$repository['user'] . '/' . $repository['repo']] = $repository['user'] . '/' . $repository['repo'];
+    }
+    
     $form = $app['form.factory']->createBuilder('form')
+            ->add('repository', 'choice', array(
+                'label'     => $app['translator']->trans('repository'),
+                'choices'   => $repositories,
+                'required'  => true,
+            ))
             ->add('issue', 'text', array(
                 'label'     => $app['translator']->trans('issue'),
                 'required'  => true,
@@ -81,9 +91,13 @@ $app->match('/add', function (Request $request) use ($app) {
                 $body .= "\n\n".'<img src="'.$fileUrl.'" alt="Included Screenshot" style="max-width: 712px;" /><br/>[See fullsize]('.$fileUrl.')';
             }
 
+            $repoInfo = explode('/', $data['repository']);
+            $user = $repoInfo[0];
+            $repo = $repoInfo[1];
+            
             $result = $app['github']->addIssue(
-                $app['repo']['user'],
-                $app['repo']['repo'],
+                $user,
+                $repo,
                 array(
                     'title'     => $data['issue'],
                     'body'      => $body,
