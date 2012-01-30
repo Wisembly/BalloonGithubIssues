@@ -62,11 +62,12 @@
     <div id="milestones">
         <h2>{{ 'milestones' | trans }}</h2>
         {% for milestone in milestones %}
+        {% set milestone_percent = milestone.closed_issues / (milestone.closed_issues + milestone.open_issues) * 100 // 1 %}
             <div class="milestone">
                 <div class="progress">
                     <span class="progress-bar">
-                        <span class="progress" style="width: {{ milestone.closed_issues / (milestone.closed_issues + milestone.open_issues) * 100 // 1  }}%">&nbsp;</span>
-                        <span class="percent">67%</span>
+                        <span class="progress" style="width: {{ milestone_percent }}%">&nbsp;</span>
+                        <span class="percent">{{ milestone_percent }}%</span>
                     </span>
                 </div>
                 <h3>{{ milestone.title }}</h3>
