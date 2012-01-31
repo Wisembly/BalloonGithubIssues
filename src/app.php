@@ -77,7 +77,7 @@ $app->match('/add', function (Request $request) use ($app) {
             if (isset($files['fileUpload']) && null !== $files['fileUpload']) {
                 $filename = time().'_'.uniqid().'.'.$files['fileUpload']->guessExtension();
                 $files['fileUpload']->move(__DIR__.'/../web/upload/', $filename);
-                $fileUrl = $app['protocol'].'://'.$app['host'].'/upload/'.$filename;
+                $fileUrl = $app['base_url'].'/upload/'.$filename;
                 $body .= "\n\n".'<img src="'.$fileUrl.'" alt="Included Screenshot" style="max-width: 712px;" /><br/>[See fullsize]('.$fileUrl.')';
             }
 
