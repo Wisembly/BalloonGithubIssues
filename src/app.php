@@ -115,6 +115,10 @@ $app->match('/add', function (Request $request) use ($app) {
                 ));
 
             if (!empty($result) && !isset($result['message'])) {
+                $request->getSession()->set('repo', array(
+                    'user' => urldecode($user), 'repo' => urldecode($repo)
+                ));
+
                 if ($request->request->get('bookmarklet')) {
                     return $app->redirect($app['url_generator']->generate('bookmarklet',array('action'=>'remove')));
                 } else {
