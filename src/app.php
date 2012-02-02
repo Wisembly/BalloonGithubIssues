@@ -55,29 +55,37 @@ $app->match('/add', function (Request $request) use ($app) {
     
     $defaultRepo = $app['repo']['user'] . '/' . $app['repo']['repo'];
     
-    $form = $app['form.factory']->createBuilder('form')
-            ->add('repository', 'choice', array(
-                'label'     => $app['translator']->trans('repository'),
-                'choices'   => $repositories,
-                'preferred_choices' => array($defaultRepo => $defaultRepo),
-                'required'  => true,
-            ))
-            ->add('issue', 'text', array(
-                'label'     => $app['translator']->trans('issue'),
-                'required'  => true,
-            ))
-            ->add('description', 'textarea', array(
-                'label'     => $app['translator']->trans('description'),
-                'required'  => false,
-            ))
-            ->add('fileUpload', 'file', array(
-                'label'     => $app['translator']->trans('fileupload'),
-                'required'  => false
-            ))
-            ->add('userData', 'hidden', array(
-                'required'  => false
-            ))
-        ->getForm();
+    $form = $app['form.factory']->createBuilder('form');
+    
+    if (count($repositories) > 1) {
+        $form = $form->add('repository', 'choice', array(
+            'label'     => $app['translator']->trans('repository'),
+            'choices'   => $repositories,
+            'preferred_choices' => array($defaultRepo => $defaultRepo),
+            'required'  => true,
+        ));
+    } else {
+        $form = $form->add('repository', 'hidden', array(
+            'data'     => array_pop($repositories)
+        ));
+    }
+    
+    $form = $form->add('issue', 'text', array(
+                     'label'     => $app['translator']->trans('issue'),
+                     'required'  => true,
+                 ))
+                 ->add('description', 'textarea', array(
+                     'label'     => $app['translator']->trans('description'),
+                     'required'  => false,
+                 ))
+                 ->add('fileUpload', 'file', array(
+                     'label'     => $app['translator']->trans('fileupload'),
+                     'required'  => false
+                 ))
+                 ->add('userData', 'hidden', array(
+                     'required'  => false
+                 ))
+                 ->getForm();
 
     if ($request->getMethod() == 'POST') {
         $form->bindRequest($request);
