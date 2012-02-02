@@ -18,6 +18,10 @@ body {
   width: 445px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
 }
 
+#form{
+    height: 242px;
+}
+
 #addIssue input {
     width: 200px;
     height: 35px;
