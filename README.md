@@ -42,3 +42,6 @@ Chmod your upload dir
 
 ![add issue bookmarklet 2](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/add_an_issue_2.png)
 <p>Add an issue via Bookmarklet (bis)</p>
+
+![Github Issue with screen](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/github_issue.png)
+<p>View screenshot directly in Issue + extra infos!</p>
