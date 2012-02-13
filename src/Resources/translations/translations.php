@@ -29,6 +29,7 @@ $app['translator.messages'] = array(
         'please_login'  => 'Please Login',
         'help_bookmarklet' => "Please, drag and drop this link to your browser favorites tab bar above to enable the Balloon Github Issues Bookmarklet on all the websites you visit.",
         'repository'    => 'Repository',
+        'approve'       => 'Approve',
     ),
     'fr' => array(
         'username'      => 'Identifiant',
@@ -58,5 +59,6 @@ $app['translator.messages'] = array(
         'please_login'  => 'Veuilez vous identifier',
         'help_bookmarklet' => "Veuillez glisser le lien dans la barre de favoris de notre navigateur afin de pouvoir utilise le Bookmarklet sur les sites que vous visitez.",
         'repository'    => 'Dépôt',
+        'approve'       => 'Approuver',
     ),
 );

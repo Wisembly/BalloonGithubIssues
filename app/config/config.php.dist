@@ -1,12 +1,14 @@
 <?php
 
 return array(
-    'debug'     => true,
+    'debug'     => false,
     'locale'    => 'en',
     'base_url'      => 'http://yourdomain/path/to/web',
     'repositories'  =>  array(
-            array('user' => 'balloon', 'repo' => 'balloon4'),
-            array('user' => 'balloon', 'repo' => 'balloon5'),
+        array(
+            'user'  =>  'balloon',
+            'repo'  =>  'balloon5',
         ),
+    ),
+    'pending_repo'   =>  false,
 );
-

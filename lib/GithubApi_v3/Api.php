@@ -34,9 +34,19 @@ class Api {
         return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $params);
     }
 
+    public function closeIssue($user, $repo, $number)
+    {
+        return $this->post('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues/'.urlencode($number), array('state' => 'closed'));
+    }
+
     public function getIssues($user, $repo, $params = array())
     {
         return $this->get('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues', $this->params($params));
+    }
+
+    public function getIssue($user, $repo, $number)
+    {
+        return $this->get('/repos/'.urlencode($user).'/'.urlencode($repo).'/issues/'.urlencode($number));
     }
 
     public function login($username, $password)

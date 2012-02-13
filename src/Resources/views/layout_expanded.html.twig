@@ -22,15 +22,25 @@
                     {% if bookmarklet is not defined %}
                         <ul id="change-repo" class="unstyled inline">
                             <li class="dropdown" data-dropdown="dropdown">
-                                <a href="#" class="btn small dropdown-toggle">{{ 'issues_for' | trans }}: {{ app.repo['user'] | capitalize }}/{{ app.repo['repo'] | capitalize }}</a>
+                                <a href="#" class="btn small dropdown-toggle">{{ 'issues_for' | trans }}: {{ app['repo']['user'] | capitalize }}/{{ app['repo']['repo'] | capitalize }}</a>
                                 <ul class="dropdown-menu">
-                                    {% for repo in app.config.repositories %}
+                                    {% if app['config']['pending_repo'] != false %}
                                         <li>
-                                            <a href="{{ path('change', {"user": repo['user'], "repo": repo['repo']}) }}">
-                                                {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
+                                            <a href="{{ path('change', {"user": app['config']['pending_repo']['user'], "repo": app['config']['pending_repo']['repo']}) }}">
+                                                {{ app['config']['pending_repo']['user'] | capitalize }}/{{ app['config']['pending_repo']['repo'] | capitalize }}
                                             </a>
                                         </li>
-                                    {% endfor %}
+                                        <li class="divider"></li>
+                                    {% endif %}
+                                    {% if app['config']['pending_repo'] != false and app['user']['username'] is defined and app['user']['username'] in app['config']['pending_repo']['allowed_users'] %}
+                                        {% for repo in app.config.repositories %}
+                                            <li>
+                                                <a href="{{ path('change', {"user": repo['user'], "repo": repo['repo']}) }}">
+                                                    {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
                             </li>
                         </ul>

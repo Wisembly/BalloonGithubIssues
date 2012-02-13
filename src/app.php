@@ -52,24 +52,26 @@ $app->match('/add', function (Request $request) use ($app) {
         $repoInfo = $repository['user'] . '/' . $repository['repo'];
         $repositories[$repoInfo] = $repoInfo;
     }
-    
+
     $defaultRepo = $app['repo']['user'] . '/' . $app['repo']['repo'];
-    
+
     $form = $app['form.factory']->createBuilder('form');
-    
-    if (count($repositories) > 1) {
-        $form = $form->add('repository', 'choice', array(
-            'label'     => $app['translator']->trans('repository'),
-            'choices'   => $repositories,
-            'preferred_choices' => array($defaultRepo => $defaultRepo),
-            'required'  => true,
-        ));
+
+    if (false != $app['config']['pending_repo'] && !in_array($app['user']['username'], $app['config']['pending_repo']['allowed_users'])) {
+        $form = $form->add('repository', 'hidden', array('data' => $app['config']['pending_repo']['user'] . '/' . $app['config']['pending_repo']['repo']));
     } else {
-        $form = $form->add('repository', 'hidden', array(
-            'data'     => array_pop($repositories)
-        ));
+        if (count($repositories) > 1) {
+            $form = $form->add('repository', 'choice', array(
+                'label'     => $app['translator']->trans('repository'),
+                'choices'   => $repositories,
+                'preferred_choices' => array($defaultRepo => $defaultRepo),
+                'required'  => true,
+            ));
+        } else {
+            $form = $form->add('repository', 'hidden', array('data' => array_pop($repositories)));
+        }
     }
-    
+
     $form = $form->add('issue', 'text', array(
                      'label'     => $app['translator']->trans('issue'),
                      'required'  => true,
@@ -164,6 +166,39 @@ $app->get('/change/{user}/{repo}', function (Request $request, $user, $repo) use
 ->bind('change');
 
 /** 
+* Approve an issue in temp repository
+**/
+$app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo, $id) use ($app) {
+    $pending_issue = $app['github']->getIssue($app['config']['pending_repo']['user'], $app['config']['pending_repo']['repo'], $id);
+
+    if (isset($pending_issue['message'])) {
+        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#1)');
+        return $app->redirect($app['url_generator']->generate('index'));
+    }
+
+    $result = $app['github']->addIssue($user, $repo, array(
+            'title'     => $pending_issue['title'],
+            'body'      => $pending_issue['body'],
+    ));
+
+    if (isset($result['message'])) {
+        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#2)');
+        return $app->redirect($app['url_generator']->generate('index'));
+    }
+
+    $result = $app['github']->closeIssue($app['config']['pending_repo']['user'], $app['config']['pending_repo']['repo'], $id);
+
+    if (isset($result['message'])) {
+        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#3)');
+        return $app->redirect($app['url_generator']->generate('index'));
+    }
+
+    $request->getSession()->setFlash('success', 'You successfully approved this issue!');
+    return $app->redirect($app['url_generator']->generate('index'));
+})
+->bind('approve');
+
+/** 
 * Log in
 **/
 $app->get('/login', function (Request $request) use ($app) {
@@ -221,10 +256,15 @@ $app->before(function(Request $request) use ($app) {
 
     /* User management */
     $app['user'] = $request->getSession()->get('user', null);
-    $app['repo'] = $request->getSession()->get('repo', array(
-        'user' => $app['config']['repositories'][0]['user'],
-        'repo' => $app['config']['repositories'][0]['repo'],
-    ));
+    $repo = false == $app['config']['pending_repo'] ? array(
+        'user'  =>  $app['config']['repositories'][0]['user'],
+        'repo'  =>  $app['config']['repositories'][0]['repo'],
+    ) : array(
+        'user'  =>  $app['config']['pending_repo']['user'],
+        'repo'  =>  $app['config']['pending_repo']['repo'],
+    );
+
+    $app['repo'] = $request->getSession()->get('repo', $repo);
 
     if (null !== $app['user'] && false === $app['github']->login($app['user']['username'], $app['user']['password'])) {
         $request->getSession()->setFlash('error', 'Bad credidentials');

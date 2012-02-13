@@ -20,19 +20,40 @@
 
                     <th>{{ 'milestone' | trans }}</th>
 
+                    {% if app['user']['username'] is defined and app['config']['pending_repo'] != false and app['repo']['repo'] == app['config']['pending_repo']['repo'] and app['repo']['user'] == app['config']['pending_repo']['user'] and app['user']['username'] in app['config']['pending_repo']['allowed_users'] %}
+                        <th>{{ 'approve' | trans }}</th>
+                    {% endif %}
+
                     <th>{{ 'assignee' | trans }}</th>
                 </tr>
             </thead>
             <tbody>
             {% for issue in issues %}
-                <tr data-controls-modal="modal_{{ issue.number }}" data-backdrop="static" style="cursor: pointer;">
-                    <td>#{{ issue.number }}</td>
+                <tr>
+                    <td data-controls-modal="modal_{{ issue.number }}" data-backdrop="static" style="cursor: pointer;">#{{ issue.number }}</td>
                     <td>
                         {{ issue.title }}
                     </td>
                     <td>{{ issue.user.login }}</td>
 
                     <td>{% if issue.milestone.title is defined %}{{ issue.milestone.title }}{% else %}~{% endif %}</td>
+
+                    {% if app['user']['username'] is defined and app['config']['pending_repo'] != false and app['repo']['repo'] == app['config']['pending_repo']['repo'] and app['repo']['user'] == app['config']['pending_repo']['user'] and app['user']['username'] in app['config']['pending_repo']['allowed_users'] %}                        
+                        <td>
+                            <li class="dropdown unstyled inline" data-dropdown="dropdown">
+                                <a href="#" class="btn small dropdown-toggle">{{ 'approve' | trans }}</a>
+                                <ul class="dropdown-menu">
+                                    {% for repo in app.config.repositories %}
+                                        <li>
+                                            <a href="{{ path('approve', {"user": repo['user'], "repo": repo['repo'], "id": issue.number })}}">
+                                                {{ repo['user'] | capitalize }}/{{ repo['repo'] | capitalize }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </td>
+                    {% endif %}
 
                     <td>{% if issue.assignee != null %}{{ issue.assignee.login }}{% else %}~~{% endif %}</td>
                 </tr>

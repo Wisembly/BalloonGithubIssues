@@ -26,6 +26,25 @@ Chmod your upload dir
 * `locale`: `string` -> default app language (en, fr currently)
 * `repositories` : `array` -> list of repositories managed by the tool
 
+#### Pending repo
+`pending_repo` : use a temporary repository for lambda users if you do not want to give access to your final repository to them. Define in which repo pending issues are stored and transfer them to final repo after approval
+
+`false` if do not want to use this feature
+
+````
+'pending_repo' => array(
+    'user' => 'userforpendingrepo',
+    'repo' => 'repoforpendingrepo',
+    'allowed_users' => array('thisusercanapprovependingissue', 'thisonetoo', 'andalsothatone'),
+);
+```
+
+## Changelog
+
+* v 1.2.0 Added Pending Issues
+* v 1.1.0 Added Bookmarklet
+* v 1.0.0 Initial version
+
 ## Requirements
 
 * PHP 5.3.x
