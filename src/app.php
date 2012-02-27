@@ -199,7 +199,8 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
 ->bind('approve');
 
 /**
- * Refuse an issue in temp repository 
+ * Close an issue
+ * 
  * @param Request $request
  * @param string $user
  * @param string $repo
