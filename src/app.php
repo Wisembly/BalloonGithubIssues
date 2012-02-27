@@ -198,6 +198,24 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
 })
 ->bind('approve');
 
+/**
+ * Refuse an issue in temp repository 
+ * @param Request $request
+ * @param string $user
+ * @param string $repo
+ * @param integer $id
+ */
+$app->get('/close/{user}/{repo}/{id}', function(Request $request, $user, $repo, $id) use ($app) {
+    $result = $app['github']->closeIssue($user, $repo, $id);
+    if (isset($result['message'])) {
+        $request->getSession()->setFlash('error', $result['message']);
+    } else {
+        $request->getSession()->setFlash('success', 'You successfully closed this issue!');
+    }
+    
+    return $app->redirect($app['url_generator']->generate('index'));
+})->bind('close');
+
 /** 
 * Log in
 **/
