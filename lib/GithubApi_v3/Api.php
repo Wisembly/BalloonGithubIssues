@@ -18,6 +18,10 @@ class Api {
     {
         return $this->get('/repos/'.$user.'/'.$repo.'/milestones', $this->params($params));
     }
+	public function getLabels($user, $repo, $params = array())
+    {
+	return $this->get('/repos/'.$user.'/'.$repo.'/labels', $this->params($params));
+    }
 
     public function loadUserData()
     {
