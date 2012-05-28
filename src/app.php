@@ -9,19 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 $app->get('/', function (Request $request) use ($app) {
     $issues = $app['github']->getIssues($app['repo']['user'], $app['repo']['repo']);
     $milestones = $app['github']->getMilestones($app['repo']['user'], $app['repo']['repo']);
-	$labels = $app['github']->getLabels($app['repo']['user'], $app['repo']['repo']);
+    $labels = $app['github']->getLabels($app['repo']['user'], $app['repo']['repo']);
 
     if (isset($issues['message']) && sizeof($issues) == 1) {
         $request->getSession()->setFlash('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
         $issues = array();
         $milestones = array();
-		$labels=array();
+	$labels=array();
     }
 
     return $app['twig']->render('index.html.twig', array(
         'issues'        => $issues,
         'milestones'    => $milestones,
-		'labels'		=>$labels,
+	'labels'	=>$labels,
     ));
 })
 ->bind('index');
@@ -60,7 +60,7 @@ $app->match('/add', function (Request $request) use ($app) {
 
     $labels = $app['github']->getLabels($app['repo']['user'],$app['repo']['repo']);
     foreach($labels as $label){
-	 	$labelNames[]=$label['name'];
+	 $labelNames[]=$label['name'];
 	}
 
     $form = $app['form.factory']->createBuilder('form');
@@ -92,13 +92,13 @@ $app->match('/add', function (Request $request) use ($app) {
                      'label'     => $app['translator']->trans('fileupload'),
                      'required'  => false
                  ))
-				->add('labels', 'choice', array(
-    				'choices'   => $labelNames,
-					'multiple'  => true,
-					'expanded' =>false,
-					'label' => $app['translator']->trans('labels'),
-					'required' => false 
-				))
+		 ->add('labels', 'choice',array(
+			'choices'   => $labelNames,
+			'multiple'  => true,
+			'expanded' =>false,
+			'label' => $app['translator']->trans('labels'),
+			'required' => false 
+		))
                  ->add('userData', 'hidden', array(
                      'required'  => false
                  ))
@@ -133,7 +133,7 @@ $app->match('/add', function (Request $request) use ($app) {
                 array(
                     'title'     => $data['issue'],
                     'body'      => $body,
-					'labels'	=> $selectedLabels,
+		    'labels'	=> $selectedLabels,
                 ));
 
             if (!empty($result) && !isset($result['message'])) {
@@ -198,8 +198,8 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
 
     $result = $app['github']->addIssue($user, $repo, array(
             'title'     => $pending_issue['title'],
-            'body'      => $pending_issue['body'],
-			'labels'	=> $pending_issue['labels'],
+            'body'      => $pending_issue['body']."<br/>".$app['translator']->trans('who_found').$pending_issue['user']['login'],
+	    'labels'	=> $pending_issue['labels'],
     ));
 
     if (isset($result['message'])) {
