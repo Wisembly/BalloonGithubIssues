@@ -15,13 +15,13 @@ $app->get('/', function (Request $request) use ($app) {
         $request->getSession()->setFlash('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
         $issues = array();
         $milestones = array();
-        $labels=array();
+        $labels = array();
     }
 
     return $app['twig']->render('index.html.twig', array(
         'issues'        => $issues,
         'milestones'    => $milestones,
-        'labels'	=>$labels,
+        'labels'	    =>$labels,
     ));
 })
 ->bind('index');
@@ -92,12 +92,12 @@ $app->match('/add', function (Request $request) use ($app) {
                     'label'     => $app['translator']->trans('fileupload'),
                     'required'  => false
                 ))
-                ->add('labels', 'choice',array(
+                 ->add('labels', 'choice',array(
                     'choices'   => $labelNames,
 		            'multiple'  => true,
-		            'expanded' =>false,
-		            'label' => $app['translator']->trans('labels'),
-		            'required' => false 
+		            'expanded'  => true,
+		            'label'     => $app['translator']->trans('labels'),
+		            'required'  => false 
                 ))
                  ->add('userData', 'hidden', array(
                     'required'  => false
