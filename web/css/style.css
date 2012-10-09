@@ -154,6 +154,49 @@ small {
     height: 100px;
     width: 500px;
 }
+/*Customisation Checkboxes*/
+
+#form_labels{
+    padding-top:6px;
+}
+#form_labels > label{
+    width:auto;
+    float:none;
+    font-size:1.2em;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#form_labels > input[type="checkbox"]:checked,
+#form_labels > input[type="checkbox"]:not(:checked)
+{
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	position: absolute;
+	clip: rect(0 0 0 0);
+	clip: rect(0,0,0,0);
+	-webkit-appearance:	none;
+	-moz-appearance:	none;
+	-o-appearance:		none;
+	appearance:		none;
+}
+
+input[type="checkbox"]+label:hover
+{
+	color:#0064CD;
+	text-decoration:underline;
+	
+}
+input[type="checkbox"]:checked+label
+{
+	color:#0064CD;
+	text-decoration:underline;
+}
+
+/*Fin checkboxes*/
 
 .milestone .progress {
     float: right;

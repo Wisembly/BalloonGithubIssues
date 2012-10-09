@@ -21,7 +21,9 @@ body {
 #form{
     height: 242px;
 }
-
+#addissue div {
+    margin-bottom: 10px;
+}
 #addIssue input {
     width: 200px;
     height: 35px;
@@ -32,9 +34,17 @@ body {
     height: 100px;
     width: 200px;
 }
-
+#form_labels{
+    width: 200px;
+    margin-right: 30px;
+    float: right;
+}
+#form_labels > label{
+    font-size: 1em;
+    display: inline;    
+}
 .bookmarklet-quit {
-    position:absolute;
+    position: absolute;
     left: 380px;
     top: 5px;
 }
