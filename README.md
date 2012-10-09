@@ -41,6 +41,7 @@ Chmod your upload dir
 
 ## Changelog
 
+* v 1.3.0 Added labels 
 * v 1.2.0 Added Pending Issues
 * v 1.1.0 Added Bookmarklet
 * v 1.0.0 Initial version
@@ -49,10 +50,6 @@ Chmod your upload dir
 
 * PHP 5.3.x
 * curl extension activated
-
-## TODO
-
-* add label(s) when creating a new issue
 
 ## Screenshots
 
