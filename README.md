@@ -60,11 +60,11 @@ Chmod your upload dir
 
 ## Screenshots
 
-![add issue bookmarklet](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/add_an_issue.png)
+![add issue bookmarklet](https://github.com/Wisembly/BalloonGithubIssues/raw/master/doc/add_an_issue.png)
 <p>Add an issue via Bookmarklet</p>
 
-![add issue bookmarklet 2](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/add_an_issue_2.png)
+![add issue bookmarklet 2](https://github.com/Wisembly/BalloonGithubIssues/raw/master/doc/add_an_issue_2.png)
 <p>Add an issue via Bookmarklet (bis)</p>
 
-![Github Issue with screen](https://github.com/Balloon/BalloonGithubIssues/raw/master/doc/github_issue.png)
+![Github Issue with screen](https://github.com/Wisembly/BalloonGithubIssues/raw/master/doc/github_issue.png)
 <p>View screenshot directly in Issue + extra infos!</p>
