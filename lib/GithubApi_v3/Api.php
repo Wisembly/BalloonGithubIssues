@@ -6,6 +6,8 @@ class Api {
 
     protected $api_url = 'https://api.github.com';
 
+    protected $useragent = 'Wisembly/BalloonGithubIssues';
+
     protected $is_logged = false;
 
     protected $username = null;
@@ -90,6 +92,9 @@ class Api {
         $url = $this->api_url . $url . (!empty($params) ? $params : '');
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+
+        // set user agent. Github need an user agent
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->useragent);
 
         if ('HTTP_BASIC' == $method && null !== $this->username) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->username.':'.$this->password);
