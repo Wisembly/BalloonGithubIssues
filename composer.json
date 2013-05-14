@@ -1,0 +1,16 @@
+{
+    "require": {
+        "silex/silex": "1.0.*@dev",
+        "twig/extensions": "1.0.*@dev",
+        "symfony/twig-bridge": "2.3.*@dev",
+        "symfony/intl": "2.3.*@dev",
+        "symfony/form": "2.3.*@dev",
+        "symfony/translation": "2.3.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Bookmarklet": "lib/",
+            "GithubApi_v3": "lib/"
+        }
+    }
+}

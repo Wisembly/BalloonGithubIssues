@@ -7,10 +7,14 @@ Based on Silex micro-framework and Twitter Bootstrap.
 ## Install
 
 Clone the project:
-`git clone git@github.com:guillaumepotier/BalloonGithubIssues.git`
+`git clone https://github.com/Wisembly/BalloonGithubIssues.git`
 
-Retrieve submodules content:
+Retrieve submodules (Twitter Boostrap) content:
 `git submodule update --init`
+
+Run composer:
+`composer install`
+(more info on getcomposer.org)
 
 Create your local config file and edit it:
 `cp app/config/config.php.dist app/config/config.php`

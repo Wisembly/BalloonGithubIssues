@@ -11,7 +11,7 @@ $app->get('/', function (Request $request) use ($app) {
     $milestones = $app['github']->getMilestones($app['repo']['user'], $app['repo']['repo']);
 
     if (isset($issues['message']) && sizeof($issues) == 1) {
-        $request->getSession()->setFlash('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
+        $request->getSession()->getFlashBag()->set('warning', 'Issues not found or protected. Please log in with your GitHub credidentials');
         $issues = array();
         $milestones = array();
     }
@@ -90,7 +90,7 @@ $app->match('/add', function (Request $request) use ($app) {
                  ->getForm();
 
     if ($request->getMethod() == 'POST') {
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
@@ -124,13 +124,13 @@ $app->match('/add', function (Request $request) use ($app) {
                 if ($request->request->get('bookmarklet')) {
                     return $app->redirect($app['url_generator']->generate('bookmarklet',array('action'=>'remove')));
                 } else {
-                    $request->getSession()->setFlash('success', 'You successfully created your issue!');
+                    $request->getSession()->getFlashBag()->set('success', 'You successfully created your issue!');
                     return $app->redirect($app['url_generator']->generate('index'));
                 }
             }
         }
 
-        $request->getSession()->setFlash('error', 'Your issue has not been submitted: '.$result['message'].'!<br/>'.json_encode($result['errors']));
+        $request->getSession()->getFlashBag()->set('error', 'Your issue has not been submitted: '.$result['message'].'!<br/>'.json_encode($result['errors']));
     }
 
     if ($request->query->get('src') == 'bookmarklet.js') {
@@ -172,7 +172,7 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
     $pending_issue = $app['github']->getIssue($app['config']['pending_repo']['user'], $app['config']['pending_repo']['repo'], $id);
 
     if (isset($pending_issue['message'])) {
-        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#1)');
+        $request->getSession()->getFlashBag()->set('error', 'Error while trying to approve this issue (#1)');
         return $app->redirect($app['url_generator']->generate('index'));
     }
 
@@ -182,18 +182,18 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
     ));
 
     if (isset($result['message'])) {
-        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#2)');
+        $request->getSession()->getFlashBag()->set('error', 'Error while trying to approve this issue (#2)');
         return $app->redirect($app['url_generator']->generate('index'));
     }
 
     $result = $app['github']->closeIssue($app['config']['pending_repo']['user'], $app['config']['pending_repo']['repo'], $id);
 
     if (isset($result['message'])) {
-        $request->getSession()->setFlash('error', 'Error while trying to approve this issue (#3)');
+        $request->getSession()->getFlashBag()->set('error', 'Error while trying to approve this issue (#3)');
         return $app->redirect($app['url_generator']->generate('index'));
     }
 
-    $request->getSession()->setFlash('success', 'You successfully approved this issue!');
+    $request->getSession()->getFlashBag()->set('success', 'You successfully approved this issue!');
     return $app->redirect($app['url_generator']->generate('index'));
 })
 ->bind('approve');
@@ -209,9 +209,9 @@ $app->get('/approve/{user}/{repo}/{id}', function(Request $request, $user, $repo
 $app->get('/close/{user}/{repo}/{id}', function(Request $request, $user, $repo, $id) use ($app) {
     $result = $app['github']->closeIssue($user, $repo, $id);
     if (isset($result['message'])) {
-        $request->getSession()->setFlash('error', $result['message']);
+        $request->getSession()->getFlashBag()->set('error', $result['message']);
     } else {
-        $request->getSession()->setFlash('success', 'You successfully closed this issue!');
+        $request->getSession()->getFlashBag()->set('success', 'You successfully closed this issue!');
     }
     
     return $app->redirect($app['url_generator']->generate('index'));
@@ -239,10 +239,10 @@ $app->get('/login', function (Request $request) use ($app) {
                 'username' => $request->request->get('username'),
                 'password' => $request->request->get('password'),
             ));
-        $request->getSession()->setFlash('success', 'Hoody '.ucFirst($request->request->get('username')).' !');
+        $request->getSession()->getFlashBag()->set('success', 'Hoody '.ucFirst($request->request->get('username')).' !');
     } else {
         $request->getSession()->set('user', null);
-        $request->getSession()->setFlash('error', 'Bad credidentials');
+        $request->getSession()->getFlashBag()->set('error', 'Bad credidentials');
     }
 
         return $app->redirect($app['url_generator']->generate('index'));
@@ -256,7 +256,7 @@ $app->get('/login', function (Request $request) use ($app) {
 $app->get('/logout', function (Request $request) use ($app) {
     $app['user'] = null;
     $request->getSession()->set('user', null);
-    $request->getSession()->setFlash('success', 'You successfully logged out!');
+    $request->getSession()->getFlashBag()->set('success', 'You successfully logged out!');
     if ($request->query->has('bookmarklet')) {
         return new Response($app['bookmarklet']->render('logout'));
     }
@@ -286,7 +286,7 @@ $app->before(function(Request $request) use ($app) {
     $app['repo'] = $request->getSession()->get('repo', $repo);
 
     if (null !== $app['user'] && false === $app['github']->login($app['user']['username'], $app['user']['password'])) {
-        $request->getSession()->setFlash('error', 'Bad credidentials');
+        $request->getSession()->getFlashBag()->set('error', 'Bad credidentials');
         $request->getSession()->set('user', null);
     }
 
