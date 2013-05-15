@@ -1,12 +1,18 @@
 {
     "require": {
-        "silex/silex": "1.0.*@dev",
-        "twig/extensions": "1.0.*@dev",
-        "symfony/twig-bridge": "2.3.*@dev",
-        "symfony/intl": "2.3.*@dev",
-        "symfony/form": "2.3.*@dev",
-        "symfony/translation": "2.3.*@dev"
+        "silex/silex": "~1.0",
+        "twig/extensions": "~1.0",
+        "symfony/twig-bridge": "~2.3",
+        "symfony/intl": "~2.3",
+        "symfony/form": "~2.3",
+        "symfony/translation": "~2.3",
+        "symfony/config": "~2.3",
+        "symfony/yaml": "~2.3"
     },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
     "autoload": {
         "psr-0": {
             "Bookmarklet": "lib/",

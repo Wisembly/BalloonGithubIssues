@@ -269,7 +269,7 @@ $app->get('/logout', function (Request $request) use ($app) {
 **/
 $app->before(function(Request $request) use ($app) {
     /* Translations management */
-    if ($app['config']['locale'] && isset($app['translator.messages'][$app['config']['locale']])) {
+    if ($app['config']['locale'] && isset($app['translator.domains']['messages'][$app['config']['locale']])) {
         $app['locale'] = $app['config']['locale'];
     }
 
